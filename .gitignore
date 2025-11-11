@@ -4,3 +4,10 @@ node_modules/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+# Environment variables - contains sensitive information
+.env
+.env.local
+.env.production
+.env.staging
+*.env
