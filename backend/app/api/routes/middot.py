@@ -1,11 +1,32 @@
-from typing import Any
+from typing import Any, List
 
 from fastapi import APIRouter, HTTPException, Response, status
+from sqlmodel import select
 
 from app.api.deps import CurrentUser, SessionDep, get_current_active_superuser
 from app.models import Middah, MiddahCreate, MiddahRead
 
 router = APIRouter(prefix="/middot", tags=["middot"])
+
+
+@router.get("/", response_model=List[MiddahRead])
+def list_middot(session: SessionDep) -> Any:
+    """
+    Retrieve middot.
+    """
+    statement = select(Middah)
+    return session.exec(statement).all()
+
+
+@router.get("/{name_transliterated}", response_model=MiddahRead)
+def get_middah(session: SessionDep, name_transliterated: str) -> Any:
+    """
+    Get middah by name_transliterated.
+    """
+    middah = session.get(Middah, name_transliterated)
+    if not middah:
+        raise HTTPException(status_code=404, detail="Middah not found")
+    return middah
 
 
 @router.post("/", response_model=MiddahRead, status_code=status.HTTP_201_CREATED)
