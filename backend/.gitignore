@@ -6,6 +6,3 @@ app.egg-info
 htmlcov
 .cache
 .venv
-
-# Test scripts
-**/test_*_endpoints.sh
