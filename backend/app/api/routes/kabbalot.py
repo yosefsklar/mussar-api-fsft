@@ -31,9 +31,14 @@ def create_kabbalah(*, session: SessionDep, current_user: CurrentUser, kabbalah_
     try:
         session.commit()
         session.refresh(kabbalah)
-    except IntegrityError:
+    except IntegrityError as e:
         session.rollback()
-        raise HTTPException(status_code=400, detail="Kabbalah already exists for middah")
+        error_info = str(e.orig)
+        if "kabbalot_middah_description_uq" in error_info:
+            raise HTTPException(status_code=400, detail="Kabbalah already exists for this middah and description")
+        elif "foreign key constraint" in error_info.lower():
+            raise HTTPException(status_code=400, detail="Invalid middah specified")
+        raise HTTPException(status_code=400, detail="Database constraint violation")
     return kabbalah
 
 
