@@ -20,8 +20,8 @@ router = APIRouter(prefix="/kabbalot", tags=["kabbalot"])
 
 
 @router.get("/", response_model=List[KabbalahRead])
-def list_kabbalot(session: SessionDep) -> Any: 
-    logger.info("Listing all kabbalot")
+def list_kabbalot(session: SessionDep, current_user: CurrentUser) -> Any: 
+    logger.info(f"Listing all kabbalot user_id={current_user.id}")
     statement = select(Kabbalah)
     return session.exec(statement).all()
 
@@ -53,11 +53,11 @@ def create_kabbalah(*, session: SessionDep, current_user: CurrentUser, kabbalah_
 
 
 @router.get("/{id}", response_model=KabbalahRead)
-def get_kabbalah(session: SessionDep, id: int) -> Any:
-    logger.info(f"Fetching kabbalah kabbalah_id={id}")
+def get_kabbalah(session: SessionDep, current_user: CurrentUser, id: int) -> Any:
+    logger.info(f"Fetching kabbalah user_id={current_user.id} kabbalah_id={id}")
     kabbalah = session.get(Kabbalah, id)
     if not kabbalah:
-        logger.warning(f"Kabbalah not found kabbalah_id={id}")
+        logger.warning(f"Kabbalah not found user_id={current_user.id} kabbalah_id={id}")
         raise HTTPException(status_code=404, detail="Kabbalah not found")
     return kabbalah
 
