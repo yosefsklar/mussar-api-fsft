@@ -1,15 +1,15 @@
 from fastapi import APIRouter
 
 from app.api.routes import (
+    daily_texts,
     items,
+    kabbalot,
     login,
+    middot,
     private,
+    reminder_phrases,
     users,
     utils,
-    middot,
-    reminder_phrases,
-    daily_texts,
-    kabbalot,
     weekly_texts,
 )
 from app.core.config import settings

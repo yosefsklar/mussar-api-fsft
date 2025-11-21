@@ -1,10 +1,9 @@
 import uuid
 from datetime import datetime, timezone
-from typing import Any
 
 from pydantic import EmailStr
-from sqlmodel import Field, Relationship, SQLModel
 from sqlalchemy import UniqueConstraint
+from sqlmodel import Field, Relationship, SQLModel
 
 
 # Shared properties
@@ -120,6 +119,7 @@ class NewPassword(SQLModel):
 # New domain models per CRUD specification
 # =============================================================
 
+
 # --------------------------- Middot ---------------------------
 class MiddahAttributes(SQLModel):
     name_transliterated: str = Field(max_length=80)
@@ -223,6 +223,7 @@ class DailyText(SQLModel, table=True):
         default_factory=lambda: datetime.now(timezone.utc), nullable=False
     )
 
+
 # -------------------------- Kabbalot --------------------------
 class KabbalahAttributes(SQLModel):
     middah: str = Field(max_length=80)
@@ -247,7 +248,9 @@ class KabbalahPatch(SQLModel):
 class Kabbalah(SQLModel, table=True):
     __tablename__ = "kabbalot"
     __table_args__ = (
-        UniqueConstraint("middah", "description", name="kabbalot_middah_description_uq"),
+        UniqueConstraint(
+            "middah", "description", name="kabbalot_middah_description_uq"
+        ),
     )
     id: int | None = Field(default=None, primary_key=True)
     middah: str = Field(
@@ -298,4 +301,3 @@ class WeeklyText(SQLModel, table=True):
     updated_at: datetime = Field(
         default_factory=lambda: datetime.now(timezone.utc), nullable=False
     )
-

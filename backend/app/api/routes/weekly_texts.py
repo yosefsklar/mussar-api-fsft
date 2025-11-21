@@ -1,17 +1,17 @@
-from typing import Any, List
-from datetime import datetime, timezone
 import logging
+from datetime import datetime, timezone
+from typing import Any
 
 from fastapi import APIRouter, HTTPException, Response, status
-from sqlmodel import select
 from sqlalchemy.exc import IntegrityError
+from sqlmodel import select
 
 from app.api.deps import CurrentUser, SessionDep
 from app.models import (
     WeeklyText,
     WeeklyTextCreate,
-    WeeklyTextRead,
     WeeklyTextPatch,
+    WeeklyTextRead,
 )
 
 logger = logging.getLogger(__name__)
@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/weekly_texts", tags=["weekly_texts"])
 
 
-@router.get("/", response_model=List[WeeklyTextRead])
+@router.get("/", response_model=list[WeeklyTextRead])
 def list_weekly_texts(session: SessionDep, current_user: CurrentUser) -> Any:
     logger.info(f"Listing all weekly texts user_id={current_user.id}")
     statement = select(WeeklyText)
@@ -27,14 +27,26 @@ def list_weekly_texts(session: SessionDep, current_user: CurrentUser) -> Any:
 
 
 @router.post("/", response_model=WeeklyTextRead, status_code=status.HTTP_201_CREATED)
-def create_weekly_text(*, session: SessionDep, current_user: CurrentUser, weekly_text_in: WeeklyTextCreate) -> Any:
+def create_weekly_text(
+    *, session: SessionDep, current_user: CurrentUser, weekly_text_in: WeeklyTextCreate
+) -> Any:
     if not current_user.is_superuser:
-        logger.warning(f"Non-superuser attempted to create weekly text user_id={current_user.id}")
-        raise HTTPException(status_code=403, detail="The user doesn't have enough privileges")
-    
+        logger.warning(
+            f"Non-superuser attempted to create weekly text user_id={current_user.id}"
+        )
+        raise HTTPException(
+            status_code=403, detail="The user doesn't have enough privileges"
+        )
+
     payload = weekly_text_in.model_dump()
     logger.info(f"Creating weekly text user_id={current_user.id} {payload=}")
-    weekly_text = WeeklyText.model_validate(weekly_text_in, update={"created_at": datetime.now(timezone.utc), "updated_at": datetime.now(timezone.utc)})
+    weekly_text = WeeklyText.model_validate(
+        weekly_text_in,
+        update={
+            "created_at": datetime.now(timezone.utc),
+            "updated_at": datetime.now(timezone.utc),
+        },
+    )
     session.add(weekly_text)
     try:
         session.commit()
@@ -55,24 +67,34 @@ def get_weekly_text(session: SessionDep, current_user: CurrentUser, id: int) -> 
     logger.info(f"Fetching weekly text user_id={current_user.id} weekly_text_id={id}")
     weekly_text = session.get(WeeklyText, id)
     if not weekly_text:
-        logger.warning(f"Weekly text not found user_id={current_user.id} weekly_text_id={id}")
+        logger.warning(
+            f"Weekly text not found user_id={current_user.id} weekly_text_id={id}"
+        )
         raise HTTPException(status_code=404, detail="Weekly text not found")
     return weekly_text
 
 
 @router.patch("/{id}", response_model=WeeklyTextRead)
-def patch_weekly_text(*, session: SessionDep, current_user: CurrentUser, id: int, patch: WeeklyTextPatch) -> Any:
+def patch_weekly_text(
+    *, session: SessionDep, current_user: CurrentUser, id: int, patch: WeeklyTextPatch
+) -> Any:
     if not current_user.is_superuser:
-        logger.warning(f"Non-superuser attempted to patch weekly text user_id={current_user.id} weekly_text_id={id}")
-        raise HTTPException(status_code=403, detail="The user doesn't have enough privileges")
-    
+        logger.warning(
+            f"Non-superuser attempted to patch weekly text user_id={current_user.id} weekly_text_id={id}"
+        )
+        raise HTTPException(
+            status_code=403, detail="The user doesn't have enough privileges"
+        )
+
     weekly_text = session.get(WeeklyText, id)
     if not weekly_text:
         logger.warning(f"Weekly text not found for patch weekly_text_id={id}")
         raise HTTPException(status_code=404, detail="Weekly text not found")
-    
+
     update_dict = patch.model_dump(exclude_unset=True)
-    logger.info(f"Patching weekly text user_id={current_user.id} weekly_text_id={id} {update_dict}")
+    logger.info(
+        f"Patching weekly text user_id={current_user.id} weekly_text_id={id} {update_dict}"
+    )
     for k, v in update_dict.items():
         setattr(weekly_text, k, v)
     weekly_text.updated_at = datetime.now(timezone.utc)
@@ -83,7 +105,9 @@ def patch_weekly_text(*, session: SessionDep, current_user: CurrentUser, id: int
     except IntegrityError as e:
         session.rollback()
         error_info = str(e.orig)
-        logger.error(f"IntegrityError patching weekly text weekly_text_id={id} {error_info}")
+        logger.error(
+            f"IntegrityError patching weekly text weekly_text_id={id} {error_info}"
+        )
         if "foreign key constraint" in error_info.lower():
             raise HTTPException(status_code=400, detail="Invalid middah specified")
         raise HTTPException(status_code=400, detail="Database constraint violation")
@@ -91,16 +115,22 @@ def patch_weekly_text(*, session: SessionDep, current_user: CurrentUser, id: int
 
 
 @router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_weekly_text(*, session: SessionDep, current_user: CurrentUser, id: int):
+def delete_weekly_text(
+    *, session: SessionDep, current_user: CurrentUser, id: int
+) -> Response:
     if not current_user.is_superuser:
-        logger.warning(f"Non-superuser attempted to delete weekly text user_id={current_user.id} weekly_text_id={id}")
-        raise HTTPException(status_code=403, detail="The user doesn't have enough privileges")
-    
+        logger.warning(
+            f"Non-superuser attempted to delete weekly text user_id={current_user.id} weekly_text_id={id}"
+        )
+        raise HTTPException(
+            status_code=403, detail="The user doesn't have enough privileges"
+        )
+
     weekly_text = session.get(WeeklyText, id)
     if not weekly_text:
         logger.warning(f"Weekly text not found for deletion weekly_text_id={id}")
         raise HTTPException(status_code=404, detail="Weekly text not found")
-    
+
     logger.info(f"Deleting weekly text user_id={current_user.id} weekly_text_id={id}")
     session.delete(weekly_text)
     session.commit()
