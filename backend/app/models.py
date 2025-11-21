@@ -184,6 +184,7 @@ class ReminderPhrase(SQLModel, table=True):
 # ------------------------- Daily Texts ------------------------
 class DailyTextAttributes(SQLModel):
     # Required keys, values may be null
+    middah: str = Field(max_length=80)
     sefaria_url: str | None
     title: str | None
     content: str | None
@@ -200,6 +201,7 @@ class DailyTextRead(DailyTextAttributes):
 
 
 class DailyTextPatch(SQLModel):
+    middah: str | None = Field(default=None, max_length=80)
     sefaria_url: str | None = None
     title: str | None = None
     content: str | None = None
@@ -208,6 +210,9 @@ class DailyTextPatch(SQLModel):
 class DailyText(SQLModel, table=True):
     __tablename__ = "daily_texts"
     id: int | None = Field(default=None, primary_key=True)
+    middah: str = Field(
+        foreign_key="middot.name_transliterated", max_length=80, nullable=False
+    )
     sefaria_url: str | None = Field(default=None, unique=True)
     title: str | None = None
     content: str | None = None
@@ -217,26 +222,6 @@ class DailyText(SQLModel, table=True):
     updated_at: datetime = Field(
         default_factory=lambda: datetime.now(timezone.utc), nullable=False
     )
-
-
-class DailyTextMiddah(SQLModel, table=True):
-    __tablename__ = "daily_texts_middot"
-    __table_args__ = (
-        UniqueConstraint("daily_text_id", "middah", name="daily_texts_middot_pair_uq"),
-    )
-    daily_text_id: int = Field(
-        foreign_key="daily_texts.id", primary_key=True, nullable=False, ondelete="CASCADE"
-    )
-    middah: str = Field(
-        foreign_key="middot.name_transliterated", primary_key=True, max_length=80
-    )
-    created_at: datetime = Field(
-        default_factory=lambda: datetime.now(timezone.utc), nullable=False
-    )
-    updated_at: datetime = Field(
-        default_factory=lambda: datetime.now(timezone.utc), nullable=False
-    )
-
 
 # -------------------------- Kabbalot --------------------------
 class KabbalahAttributes(SQLModel):
