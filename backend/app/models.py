@@ -77,9 +77,7 @@ class ItemUpdate(ItemBase):
 # Database model, database table inferred from class name
 class Item(ItemBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
-    owner_id: uuid.UUID = Field(
-        foreign_key="user.id", nullable=False, ondelete="CASCADE"
-    )
+    owner_id: uuid.UUID = Field(foreign_key="user.id", nullable=False, ondelete="CASCADE")
     owner: User | None = Relationship(back_populates="items")
 
 
@@ -165,20 +163,12 @@ class ReminderPhrasePatch(SQLModel):
 
 class ReminderPhrase(SQLModel, table=True):
     __tablename__ = "reminder_phrases"
-    __table_args__ = (
-        UniqueConstraint("middah", "text", name="reminder_phrases_middah_text_uq"),
-    )
+    __table_args__ = (UniqueConstraint("middah", "text", name="reminder_phrases_middah_text_uq"),)
     id: int | None = Field(default=None, primary_key=True)
-    middah: str = Field(
-        foreign_key="middot.name_transliterated", max_length=80, nullable=False
-    )
+    middah: str = Field(foreign_key="middot.name_transliterated", max_length=80, nullable=False)
     text: str = Field(nullable=False)
-    created_at: datetime = Field(
-        default_factory=lambda: datetime.now(timezone.utc), nullable=False
-    )
-    updated_at: datetime = Field(
-        default_factory=lambda: datetime.now(timezone.utc), nullable=False
-    )
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc), nullable=False)
+    updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc), nullable=False)
 
 
 # ------------------------- Daily Texts ------------------------
@@ -210,18 +200,12 @@ class DailyTextPatch(SQLModel):
 class DailyText(SQLModel, table=True):
     __tablename__ = "daily_texts"
     id: int | None = Field(default=None, primary_key=True)
-    middah: str = Field(
-        foreign_key="middot.name_transliterated", max_length=80, nullable=False
-    )
+    middah: str = Field(foreign_key="middot.name_transliterated", max_length=80, nullable=False)
     sefaria_url: str | None = Field(default=None, unique=True)
     title: str | None = None
     content: str | None = None
-    created_at: datetime = Field(
-        default_factory=lambda: datetime.now(timezone.utc), nullable=False
-    )
-    updated_at: datetime = Field(
-        default_factory=lambda: datetime.now(timezone.utc), nullable=False
-    )
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc), nullable=False)
+    updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc), nullable=False)
 
 
 # -------------------------- Kabbalot --------------------------
@@ -248,21 +232,13 @@ class KabbalahPatch(SQLModel):
 class Kabbalah(SQLModel, table=True):
     __tablename__ = "kabbalot"
     __table_args__ = (
-        UniqueConstraint(
-            "middah", "description", name="kabbalot_middah_description_uq"
-        ),
+        UniqueConstraint("middah", "description", name="kabbalot_middah_description_uq"),
     )
     id: int | None = Field(default=None, primary_key=True)
-    middah: str = Field(
-        foreign_key="middot.name_transliterated", max_length=80, nullable=False
-    )
+    middah: str = Field(foreign_key="middot.name_transliterated", max_length=80, nullable=False)
     description: str = Field(nullable=False)
-    created_at: datetime = Field(
-        default_factory=lambda: datetime.now(timezone.utc), nullable=False
-    )
-    updated_at: datetime = Field(
-        default_factory=lambda: datetime.now(timezone.utc), nullable=False
-    )
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc), nullable=False)
+    updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc), nullable=False)
 
 
 # ------------------------- Weekly Texts -----------------------
@@ -295,9 +271,5 @@ class WeeklyText(SQLModel, table=True):
     sefaria_url: str | None = Field(default=None, unique=True)
     title: str | None = None
     content: str | None = None
-    created_at: datetime = Field(
-        default_factory=lambda: datetime.now(timezone.utc), nullable=False
-    )
-    updated_at: datetime = Field(
-        default_factory=lambda: datetime.now(timezone.utc), nullable=False
-    )
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc), nullable=False)
+    updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc), nullable=False)

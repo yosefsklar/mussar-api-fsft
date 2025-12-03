@@ -26,17 +26,13 @@ def list_kabbalot(session: SessionDep, current_user: CurrentUser) -> Any:
     return session.exec(statement).all()
 
 
-@router.post("/", response_model=KabbalahRead, status_code=status.HTTP_201_CREATED)
+@router.post("/", response_model=KabbalahRead)
 def create_kabbalah(
     *, session: SessionDep, current_user: CurrentUser, kabbalah_in: KabbalahCreate
 ) -> Any:
     if not current_user.is_superuser:
-        logger.warning(
-            f"Non-superuser attempted to create kabbalah user_id={current_user.id}"
-        )
-        raise HTTPException(
-            status_code=403, detail="The user doesn't have enough privileges"
-        )
+        logger.warning(f"Non-superuser attempted to create kabbalah user_id={current_user.id}")
+        raise HTTPException(status_code=403, detail="The user doesn't have enough privileges")
 
     payload = kabbalah_in.model_dump()
     logger.info(f"Creating kabbalah user_id={current_user.id} {payload=}")
@@ -85,9 +81,7 @@ def patch_kabbalah(
         logger.warning(
             f"Non-superuser attempted to patch kabbalah user_id={current_user.id} kabbalah_id={id}"
         )
-        raise HTTPException(
-            status_code=403, detail="The user doesn't have enough privileges"
-        )
+        raise HTTPException(status_code=403, detail="The user doesn't have enough privileges")
 
     kabbalah = session.get(Kabbalah, id)
     if not kabbalah:
@@ -95,9 +89,7 @@ def patch_kabbalah(
         raise HTTPException(status_code=404, detail="Kabbalah not found")
 
     update_dict = patch.model_dump(exclude_unset=True)
-    logger.info(
-        f"Patching kabbalah user_id={current_user.id} kabbalah_id={id} {update_dict}"
-    )
+    logger.info(f"Patching kabbalah user_id={current_user.id} kabbalah_id={id} {update_dict}")
     for k, v in update_dict.items():
         setattr(kabbalah, k, v)
     kabbalah.updated_at = datetime.now(timezone.utc)
@@ -121,16 +113,12 @@ def patch_kabbalah(
 
 
 @router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_kabbalah(
-    *, session: SessionDep, current_user: CurrentUser, id: int
-) -> Response:
+def delete_kabbalah(*, session: SessionDep, current_user: CurrentUser, id: int) -> Response:
     if not current_user.is_superuser:
         logger.warning(
             f"Non-superuser attempted to delete kabbalah user_id={current_user.id} kabbalah_id={id}"
         )
-        raise HTTPException(
-            status_code=403, detail="The user doesn't have enough privileges"
-        )
+        raise HTTPException(status_code=403, detail="The user doesn't have enough privileges")
 
     kabbalah = session.get(Kabbalah, id)
     if not kabbalah:

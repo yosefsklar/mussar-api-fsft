@@ -26,9 +26,7 @@ def list_reminder_phrases(session: SessionDep, current_user: CurrentUser) -> Any
     return session.exec(statement).all()
 
 
-@router.post(
-    "/", response_model=ReminderPhraseRead, status_code=status.HTTP_201_CREATED
-)
+@router.post("/", response_model=ReminderPhraseRead)
 def create_reminder_phrase(
     *,
     session: SessionDep,
@@ -39,9 +37,7 @@ def create_reminder_phrase(
         logger.warning(
             f"Non-superuser attempted to create reminder phrase user_id={current_user.id}"
         )
-        raise HTTPException(
-            status_code=403, detail="The user doesn't have enough privileges"
-        )
+        raise HTTPException(status_code=403, detail="The user doesn't have enough privileges")
 
     payload = reminder_phrase_in.model_dump()
     logger.info(f"Creating reminder phrase user_id={current_user.id} {payload=}")
@@ -56,17 +52,12 @@ def create_reminder_phrase(
     try:
         session.commit()
         session.refresh(reminder_phrase)
-        logger.info(
-            f"Successfully created reminder phrase reminder_phrase_id={reminder_phrase.id}"
-        )
+        logger.info(f"Successfully created reminder phrase reminder_phrase_id={reminder_phrase.id}")
     except IntegrityError as e:
         session.rollback()
         error_info = str(e.orig)
         logger.error(f"IntegrityError creating reminder phrase {error_info}")
-        if (
-            "reminder_phrases_middah_text_uq" in error_info
-            or "unique" in error_info.lower()
-        ):
+        if "reminder_phrases_middah_text_uq" in error_info or "unique" in error_info.lower():
             raise HTTPException(
                 status_code=400,
                 detail="Reminder phrase already exists for this middah and text",
@@ -79,9 +70,7 @@ def create_reminder_phrase(
 
 @router.get("/{id}", response_model=ReminderPhraseRead)
 def get_reminder_phrase(session: SessionDep, current_user: CurrentUser, id: int) -> Any:
-    logger.info(
-        f"Fetching reminder phrase user_id={current_user.id} reminder_phrase_id={id}"
-    )
+    logger.info(f"Fetching reminder phrase user_id={current_user.id} reminder_phrase_id={id}")
     reminder_phrase = session.get(ReminderPhrase, id)
     if not reminder_phrase:
         logger.warning(
@@ -103,9 +92,7 @@ def patch_reminder_phrase(
         logger.warning(
             f"Non-superuser attempted to patch reminder phrase user_id={current_user.id} reminder_phrase_id={id}"
         )
-        raise HTTPException(
-            status_code=403, detail="The user doesn't have enough privileges"
-        )
+        raise HTTPException(status_code=403, detail="The user doesn't have enough privileges")
 
     reminder_phrase = session.get(ReminderPhrase, id)
     if not reminder_phrase:
@@ -129,10 +116,7 @@ def patch_reminder_phrase(
         logger.error(
             f"IntegrityError patching reminder phrase reminder_phrase_id={id} {error_info}"
         )
-        if (
-            "reminder_phrases_middah_text_uq" in error_info
-            or "unique" in error_info.lower()
-        ):
+        if "reminder_phrases_middah_text_uq" in error_info or "unique" in error_info.lower():
             raise HTTPException(
                 status_code=400,
                 detail="Reminder phrase already exists for this middah and text",
@@ -144,27 +128,19 @@ def patch_reminder_phrase(
 
 
 @router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_reminder_phrase(
-    *, session: SessionDep, current_user: CurrentUser, id: int
-) -> Response:
+def delete_reminder_phrase(*, session: SessionDep, current_user: CurrentUser, id: int) -> Response:
     if not current_user.is_superuser:
         logger.warning(
             f"Non-superuser attempted to delete reminder phrase user_id={current_user.id} reminder_phrase_id={id}"
         )
-        raise HTTPException(
-            status_code=403, detail="The user doesn't have enough privileges"
-        )
+        raise HTTPException(status_code=403, detail="The user doesn't have enough privileges")
 
     reminder_phrase = session.get(ReminderPhrase, id)
     if not reminder_phrase:
-        logger.warning(
-            f"Reminder phrase not found for deletion reminder_phrase_id={id}"
-        )
+        logger.warning(f"Reminder phrase not found for deletion reminder_phrase_id={id}")
         raise HTTPException(status_code=404, detail="Reminder phrase not found")
 
-    logger.info(
-        f"Deleting reminder phrase user_id={current_user.id} reminder_phrase_id={id}"
-    )
+    logger.info(f"Deleting reminder phrase user_id={current_user.id} reminder_phrase_id={id}")
     session.delete(reminder_phrase)
     session.commit()
     logger.info(f"Successfully deleted reminder phrase reminder_phrase_id={id}")

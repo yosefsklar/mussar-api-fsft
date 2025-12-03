@@ -26,17 +26,13 @@ def list_daily_texts(session: SessionDep, current_user: CurrentUser) -> Any:
     return session.exec(statement).all()
 
 
-@router.post("/", response_model=DailyTextRead, status_code=status.HTTP_201_CREATED)
+@router.post("/", response_model=DailyTextRead)
 def create_daily_text(
     *, session: SessionDep, current_user: CurrentUser, daily_text_in: DailyTextCreate
 ) -> Any:
     if not current_user.is_superuser:
-        logger.warning(
-            f"Non-superuser attempted to create daily text user_id={current_user.id}"
-        )
-        raise HTTPException(
-            status_code=403, detail="The user doesn't have enough privileges"
-        )
+        logger.warning(f"Non-superuser attempted to create daily text user_id={current_user.id}")
+        raise HTTPException(status_code=403, detail="The user doesn't have enough privileges")
 
     payload = daily_text_in.model_dump()
     logger.info(f"Creating daily text user_id={current_user.id} {payload=}")
@@ -67,9 +63,7 @@ def get_daily_text(session: SessionDep, current_user: CurrentUser, id: int) -> A
     logger.info(f"Fetching daily text user_id={current_user.id} daily_text_id={id}")
     daily_text = session.get(DailyText, id)
     if not daily_text:
-        logger.warning(
-            f"Daily text not found user_id={current_user.id} daily_text_id={id}"
-        )
+        logger.warning(f"Daily text not found user_id={current_user.id} daily_text_id={id}")
         raise HTTPException(status_code=404, detail="Daily text not found")
     return daily_text
 
@@ -82,9 +76,7 @@ def patch_daily_text(
         logger.warning(
             f"Non-superuser attempted to patch daily text user_id={current_user.id} daily_text_id={id}"
         )
-        raise HTTPException(
-            status_code=403, detail="The user doesn't have enough privileges"
-        )
+        raise HTTPException(status_code=403, detail="The user doesn't have enough privileges")
 
     daily_text = session.get(DailyText, id)
     if not daily_text:
@@ -92,9 +84,7 @@ def patch_daily_text(
         raise HTTPException(status_code=404, detail="Daily text not found")
 
     update_dict = patch.model_dump(exclude_unset=True)
-    logger.info(
-        f"Patching daily text user_id={current_user.id} daily_text_id={id} {update_dict}"
-    )
+    logger.info(f"Patching daily text user_id={current_user.id} daily_text_id={id} {update_dict}")
     for k, v in update_dict.items():
         setattr(daily_text, k, v)
     daily_text.updated_at = datetime.now(timezone.utc)
@@ -105,9 +95,7 @@ def patch_daily_text(
     except IntegrityError as e:
         session.rollback()
         error_info = str(e.orig)
-        logger.error(
-            f"IntegrityError patching daily text daily_text_id={id} {error_info}"
-        )
+        logger.error(f"IntegrityError patching daily text daily_text_id={id} {error_info}")
         if "foreign key constraint" in error_info.lower():
             raise HTTPException(status_code=400, detail="Invalid middah specified")
         raise HTTPException(status_code=400, detail="Database constraint violation")
@@ -115,16 +103,12 @@ def patch_daily_text(
 
 
 @router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_daily_text(
-    *, session: SessionDep, current_user: CurrentUser, id: int
-) -> Response:
+def delete_daily_text(*, session: SessionDep, current_user: CurrentUser, id: int) -> Response:
     if not current_user.is_superuser:
         logger.warning(
             f"Non-superuser attempted to delete daily text user_id={current_user.id} daily_text_id={id}"
         )
-        raise HTTPException(
-            status_code=403, detail="The user doesn't have enough privileges"
-        )
+        raise HTTPException(status_code=403, detail="The user doesn't have enough privileges")
 
     daily_text = session.get(DailyText, id)
     if not daily_text:

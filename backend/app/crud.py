@@ -4,7 +4,21 @@ from typing import Any
 from sqlmodel import Session, select
 
 from app.core.security import get_password_hash, verify_password
-from app.models import Item, ItemCreate, User, UserCreate, UserUpdate
+from app.models import (
+    DailyTextCreate,
+    Item,
+    ItemCreate,
+    Kabbalah,
+    KabbalahCreate,
+    Middah,
+    MiddahCreate,
+    ReminderPhrase,
+    ReminderPhraseCreate,
+    User,
+    UserCreate,
+    UserUpdate,
+    WeeklyTextCreate,
+)
 
 
 def create_user(*, session: Session, user_create: UserCreate) -> User:
@@ -52,3 +66,45 @@ def create_item(*, session: Session, item_in: ItemCreate, owner_id: uuid.UUID) -
     session.commit()
     session.refresh(db_item)
     return db_item
+
+
+def create_middah(*, session: Session, middah_in: MiddahCreate) -> Middah:
+    db_middah = Middah.model_validate(middah_in)
+    session.add(db_middah)
+    session.commit()
+    session.refresh(db_middah)
+    return db_middah
+
+
+def create_reminder_phrase(
+    *, session: Session, reminder_phrase_in: ReminderPhraseCreate
+) -> ReminderPhrase:
+    db_reminder_phrase = ReminderPhrase.model_validate(reminder_phrase_in)
+    session.add(db_reminder_phrase)
+    session.commit()
+    session.refresh(db_reminder_phrase)
+    return db_reminder_phrase
+
+
+def create_daily_text(*, session: Session, daily_text_in: DailyTextCreate) -> Any:
+    db_daily_text = DailyTextCreate.model_validate(daily_text_in)
+    session.add(db_daily_text)
+    session.commit()
+    session.refresh(db_daily_text)
+    return db_daily_text
+
+
+def create_kabbalah(*, session: Session, kabbalah_in: KabbalahCreate) -> Kabbalah:
+    db_kabbalah = Kabbalah.model_validate(kabbalah_in)
+    session.add(db_kabbalah)
+    session.commit()
+    session.refresh(db_kabbalah)
+    return db_kabbalah
+
+
+def create_weekly_text(*, session: Session, weekly_text_in: WeeklyTextCreate) -> Any:
+    db_weekly_text = WeeklyTextCreate.model_validate(weekly_text_in)
+    session.add(db_weekly_text)
+    session.commit()
+    session.refresh(db_weekly_text)
+    return db_weekly_text

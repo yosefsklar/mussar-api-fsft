@@ -24,15 +24,11 @@ def list_middot(session: SessionDep, current_user: CurrentUser) -> Any:
 
 
 @router.get("/{name_transliterated}", response_model=MiddahRead)
-def get_middah(
-    session: SessionDep, current_user: CurrentUser, name_transliterated: str
-) -> Any:
+def get_middah(session: SessionDep, current_user: CurrentUser, name_transliterated: str) -> Any:
     """
     Get middah by name_transliterated.
     """
-    logger.info(
-        f"Fetching middah user_id={current_user.id} middah_name={name_transliterated}"
-    )
+    logger.info(f"Fetching middah user_id={current_user.id} middah_name={name_transliterated}")
     middah = session.get(Middah, name_transliterated)
     if not middah:
         logger.warning(
@@ -42,18 +38,14 @@ def get_middah(
     return middah
 
 
-@router.post("/", response_model=MiddahRead, status_code=status.HTTP_201_CREATED)
+@router.post("/", response_model=MiddahRead)
 def create_middah(
     *, session: SessionDep, current_user: CurrentUser, middah_in: MiddahCreate
 ) -> Any:
     # Require superuser to create
     if not current_user.is_superuser:
-        logger.warning(
-            f"Non-superuser attempted to create middah user_id={current_user.id}"
-        )
-        raise HTTPException(
-            status_code=403, detail="The user doesn't have enough privileges"
-        )
+        logger.warning(f"Non-superuser attempted to create middah user_id={current_user.id}")
+        raise HTTPException(status_code=403, detail="The user doesn't have enough privileges")
 
     payload = middah_in.model_dump()
     logger.info(f"Creating middah user_id={current_user.id} {payload=}")
@@ -62,9 +54,7 @@ def create_middah(
     try:
         session.commit()
         session.refresh(middah)
-        logger.info(
-            f"Successfully created middah middah_name={middah.name_transliterated}"
-        )
+        logger.info(f"Successfully created middah middah_name={middah.name_transliterated}")
     except IntegrityError as e:
         session.rollback()
         error_info = str(e.orig)
@@ -83,19 +73,13 @@ def delete_middah(
         logger.warning(
             f"Non-superuser attempted to delete middah user_id={current_user.id} middah_name={name_transliterated}"
         )
-        raise HTTPException(
-            status_code=403, detail="The user doesn't have enough privileges"
-        )
+        raise HTTPException(status_code=403, detail="The user doesn't have enough privileges")
     middah = session.get(Middah, name_transliterated)
     if not middah:
-        logger.warning(
-            f"Middah not found for deletion middah_name={name_transliterated}"
-        )
+        logger.warning(f"Middah not found for deletion middah_name={name_transliterated}")
         raise HTTPException(status_code=404, detail="Middah not found")
 
-    logger.info(
-        f"Deleting middah user_id={current_user.id} middah_name={name_transliterated}"
-    )
+    logger.info(f"Deleting middah user_id={current_user.id} middah_name={name_transliterated}")
     session.delete(middah)
     session.commit()
     logger.info(f"Successfully deleted middah middah_name={name_transliterated}")
