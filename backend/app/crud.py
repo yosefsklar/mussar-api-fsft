@@ -5,6 +5,7 @@ from sqlmodel import Session, select
 
 from app.core.security import get_password_hash, verify_password
 from app.models import (
+    DailyText,
     DailyTextCreate,
     Item,
     ItemCreate,
@@ -17,6 +18,7 @@ from app.models import (
     User,
     UserCreate,
     UserUpdate,
+    WeeklyText,
     WeeklyTextCreate,
 )
 
@@ -75,6 +77,13 @@ def create_middah(*, session: Session, middah_in: MiddahCreate) -> Middah:
     session.refresh(db_middah)
     return db_middah
 
+def delete_middah(*, session: Session, name_transliterated: str) -> None:
+    middah = session.get(Middah, name_transliterated)
+    if middah:
+        session.delete(middah)
+        session.commit()
+    else:
+        raise ValueError("Middah not found in db crud operation")
 
 def create_reminder_phrase(
     *, session: Session, reminder_phrase_in: ReminderPhraseCreate
@@ -86,8 +95,8 @@ def create_reminder_phrase(
     return db_reminder_phrase
 
 
-def create_daily_text(*, session: Session, daily_text_in: DailyTextCreate) -> Any:
-    db_daily_text = DailyTextCreate.model_validate(daily_text_in)
+def create_daily_text(*, session: Session, daily_text_in: DailyTextCreate) -> DailyText:
+    db_daily_text = DailyText.model_validate(daily_text_in)
     session.add(db_daily_text)
     session.commit()
     session.refresh(db_daily_text)
@@ -102,8 +111,8 @@ def create_kabbalah(*, session: Session, kabbalah_in: KabbalahCreate) -> Kabbala
     return db_kabbalah
 
 
-def create_weekly_text(*, session: Session, weekly_text_in: WeeklyTextCreate) -> Any:
-    db_weekly_text = WeeklyTextCreate.model_validate(weekly_text_in)
+def create_weekly_text(*, session: Session, weekly_text_in: WeeklyTextCreate) -> WeeklyText:
+    db_weekly_text = WeeklyText.model_validate(weekly_text_in)
     session.add(db_weekly_text)
     session.commit()
     session.refresh(db_weekly_text)
