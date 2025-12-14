@@ -28,7 +28,14 @@ def db() -> Generator[Session, None, None]:
 @pytest.fixture(scope="session", autouse=True)
 def cleanup_db_before() -> Generator[None, None, None]:
     with Session(engine) as session:
+        # Delete in order of foreign key dependencies
         statement = delete(DailyText)
+        session.execute(statement)
+        statement = delete(ReminderPhrase)
+        session.execute(statement)
+        statement = delete(Kabbalah)
+        session.execute(statement)
+        statement = delete(WeeklyText)
         session.execute(statement)
         statement = delete(Middah)
         session.execute(statement)
@@ -41,9 +48,15 @@ def cleanup_db_before() -> Generator[None, None, None]:
 def cleanup_db_after() -> Generator[None, None, None]:
     yield
     # Teardown: cleanup after all tests complete
-    # inverse order of FK dependencies
+    # Delete in order of foreign key dependencies
     with Session(engine) as session:
         statement = delete(DailyText)
+        session.execute(statement)
+        statement = delete(ReminderPhrase)
+        session.execute(statement)
+        statement = delete(Kabbalah)
+        session.execute(statement)
+        statement = delete(WeeklyText)
         session.execute(statement)
         statement = delete(Middah)
         session.execute(statement)

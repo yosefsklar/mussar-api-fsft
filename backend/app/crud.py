@@ -94,6 +94,14 @@ def create_reminder_phrase(
     session.refresh(db_reminder_phrase)
     return db_reminder_phrase
 
+def delete_reminder_phrase(*, session: Session, reminder_phrase_id: int) -> None:
+    reminder_phrase = session.get(ReminderPhrase, reminder_phrase_id)
+    if reminder_phrase:
+        session.delete(reminder_phrase)
+        session.commit()
+    else:
+        raise ValueError("ReminderPhrase not found in db crud operation")
+
 
 def create_daily_text(*, session: Session, daily_text_in: DailyTextCreate) -> DailyText:
     db_daily_text = DailyText.model_validate(daily_text_in)
@@ -117,6 +125,14 @@ def create_kabbalah(*, session: Session, kabbalah_in: KabbalahCreate) -> Kabbala
     session.refresh(db_kabbalah)
     return db_kabbalah
 
+def delete_kabbalah(*, session: Session, kabbalah_id: int) -> None:
+    kabbalah = session.get(Kabbalah, kabbalah_id)
+    if kabbalah:
+        session.delete(kabbalah)
+        session.commit()
+    else:
+        raise ValueError("Kabbalah not found in db crud operation")
+
 
 def create_weekly_text(*, session: Session, weekly_text_in: WeeklyTextCreate) -> WeeklyText:
     db_weekly_text = WeeklyText.model_validate(weekly_text_in)
@@ -124,3 +140,11 @@ def create_weekly_text(*, session: Session, weekly_text_in: WeeklyTextCreate) ->
     session.commit()
     session.refresh(db_weekly_text)
     return db_weekly_text
+
+def delete_weekly_text(*, session: Session, weekly_text_id: int) -> None:
+    weekly_text = session.get(WeeklyText, weekly_text_id)
+    if weekly_text:
+        session.delete(weekly_text)
+        session.commit()
+    else:
+        raise ValueError("WeeklyText not found in db crud operation")
