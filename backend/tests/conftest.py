@@ -26,14 +26,28 @@ def db() -> Generator[Session, None, None]:
 # New approach for db_func fixture based testing
 # kept the old version for prior writtern test modules
 @pytest.fixture(scope="session", autouse=True)
-def cleanup_db() -> Generator[None, None, None]:
-    yield
-    # Teardown: cleanup after all tests complete
+def cleanup_db_before() -> Generator[None, None, None]:
     with Session(engine) as session:
-        statement = delete(Middah)
-        session.execute(statement)
         statement = delete(DailyText)
         session.execute(statement)
+        statement = delete(Middah)
+        session.execute(statement)
+        session.commit()   
+        yield
+
+# New approach for db_func fixture based testing
+# kept the old version for prior writtern test modules
+@pytest.fixture(scope="session", autouse=True)
+def cleanup_db_after() -> Generator[None, None, None]:
+    yield
+    # Teardown: cleanup after all tests complete
+    # inverse order of FK dependencies
+    with Session(engine) as session:
+        statement = delete(DailyText)
+        session.execute(statement)
+        statement = delete(Middah)
+        session.execute(statement)
+
         session.commit()   
 
 

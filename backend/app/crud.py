@@ -102,6 +102,13 @@ def create_daily_text(*, session: Session, daily_text_in: DailyTextCreate) -> Da
     session.refresh(db_daily_text)
     return db_daily_text
 
+def delete_daily_text(*, session: Session, daily_text_id: str) -> None:
+    daily_text = session.get(DailyText, daily_text_id)
+    if daily_text:
+        session.delete(daily_text)
+        session.commit()
+    else:
+        raise ValueError("DailyText not found in db crud operation")
 
 def create_kabbalah(*, session: Session, kabbalah_in: KabbalahCreate) -> Kabbalah:
     db_kabbalah = Kabbalah.model_validate(kabbalah_in)
