@@ -77,6 +77,7 @@ def create_middah(*, session: Session, middah_in: MiddahCreate) -> Middah:
     session.refresh(db_middah)
     return db_middah
 
+
 def delete_middah(*, session: Session, name_transliterated: str) -> None:
     middah = session.get(Middah, name_transliterated)
     if middah:
@@ -84,6 +85,7 @@ def delete_middah(*, session: Session, name_transliterated: str) -> None:
         session.commit()
     else:
         raise ValueError("Middah not found in db crud operation")
+
 
 def create_reminder_phrase(
     *, session: Session, reminder_phrase_in: ReminderPhraseCreate
@@ -93,6 +95,7 @@ def create_reminder_phrase(
     session.commit()
     session.refresh(db_reminder_phrase)
     return db_reminder_phrase
+
 
 def delete_reminder_phrase(*, session: Session, reminder_phrase_id: int) -> None:
     reminder_phrase = session.get(ReminderPhrase, reminder_phrase_id)
@@ -110,6 +113,7 @@ def create_daily_text(*, session: Session, daily_text_in: DailyTextCreate) -> Da
     session.refresh(db_daily_text)
     return db_daily_text
 
+
 def delete_daily_text(*, session: Session, daily_text_id: str) -> None:
     daily_text = session.get(DailyText, daily_text_id)
     if daily_text:
@@ -118,12 +122,14 @@ def delete_daily_text(*, session: Session, daily_text_id: str) -> None:
     else:
         raise ValueError("DailyText not found in db crud operation")
 
+
 def create_kabbalah(*, session: Session, kabbalah_in: KabbalahCreate) -> Kabbalah:
     db_kabbalah = Kabbalah.model_validate(kabbalah_in)
     session.add(db_kabbalah)
     session.commit()
     session.refresh(db_kabbalah)
     return db_kabbalah
+
 
 def delete_kabbalah(*, session: Session, kabbalah_id: int) -> None:
     kabbalah = session.get(Kabbalah, kabbalah_id)
@@ -140,6 +146,7 @@ def create_weekly_text(*, session: Session, weekly_text_in: WeeklyTextCreate) ->
     session.commit()
     session.refresh(db_weekly_text)
     return db_weekly_text
+
 
 def delete_weekly_text(*, session: Session, weekly_text_id: int) -> None:
     weekly_text = session.get(WeeklyText, weekly_text_id)
