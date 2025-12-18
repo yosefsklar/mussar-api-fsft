@@ -6,7 +6,7 @@ export const Body_login_login_access_tokenSchema = {
             anyOf: [
                 {
                     type: 'string',
-                    pattern: 'password'
+                    pattern: '^password$'
                 },
                 {
                     type: 'null'
@@ -20,6 +20,7 @@ export const Body_login_login_access_tokenSchema = {
         },
         password: {
             type: 'string',
+            format: 'password',
             title: 'Password'
         },
         scope: {
@@ -47,12 +48,171 @@ export const Body_login_login_access_tokenSchema = {
                     type: 'null'
                 }
             ],
+            format: 'password',
             title: 'Client Secret'
         }
     },
     type: 'object',
     required: ['username', 'password'],
     title: 'Body_login-login_access_token'
+} as const;
+
+export const DailyTextCreateSchema = {
+    properties: {
+        middah: {
+            type: 'string',
+            maxLength: 80,
+            title: 'Middah'
+        },
+        sefaria_url: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Sefaria Url'
+        },
+        title: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Title'
+        },
+        content: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Content'
+        }
+    },
+    type: 'object',
+    required: ['middah', 'sefaria_url', 'title', 'content'],
+    title: 'DailyTextCreate'
+} as const;
+
+export const DailyTextPatchSchema = {
+    properties: {
+        middah: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 80
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Middah'
+        },
+        sefaria_url: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Sefaria Url'
+        },
+        title: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Title'
+        },
+        content: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Content'
+        }
+    },
+    type: 'object',
+    title: 'DailyTextPatch'
+} as const;
+
+export const DailyTextReadSchema = {
+    properties: {
+        middah: {
+            type: 'string',
+            maxLength: 80,
+            title: 'Middah'
+        },
+        sefaria_url: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Sefaria Url'
+        },
+        title: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Title'
+        },
+        content: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Content'
+        },
+        id: {
+            type: 'integer',
+            title: 'Id'
+        },
+        created_at: {
+            type: 'string',
+            format: 'date-time',
+            title: 'Created At'
+        },
+        updated_at: {
+            type: 'string',
+            format: 'date-time',
+            title: 'Updated At'
+        }
+    },
+    type: 'object',
+    required: ['middah', 'sefaria_url', 'title', 'content', 'id', 'created_at', 'updated_at'],
+    title: 'DailyTextRead'
 } as const;
 
 export const HTTPValidationErrorSchema = {
@@ -182,6 +342,84 @@ export const ItemsPublicSchema = {
     title: 'ItemsPublic'
 } as const;
 
+export const KabbalahCreateSchema = {
+    properties: {
+        middah: {
+            type: 'string',
+            maxLength: 80,
+            title: 'Middah'
+        },
+        description: {
+            type: 'string',
+            title: 'Description'
+        }
+    },
+    type: 'object',
+    required: ['middah', 'description'],
+    title: 'KabbalahCreate'
+} as const;
+
+export const KabbalahPatchSchema = {
+    properties: {
+        middah: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 80
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Middah'
+        },
+        description: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Description'
+        }
+    },
+    type: 'object',
+    title: 'KabbalahPatch'
+} as const;
+
+export const KabbalahReadSchema = {
+    properties: {
+        middah: {
+            type: 'string',
+            maxLength: 80,
+            title: 'Middah'
+        },
+        description: {
+            type: 'string',
+            title: 'Description'
+        },
+        id: {
+            type: 'integer',
+            title: 'Id'
+        },
+        created_at: {
+            type: 'string',
+            format: 'date-time',
+            title: 'Created At'
+        },
+        updated_at: {
+            type: 'string',
+            format: 'date-time',
+            title: 'Updated At'
+        }
+    },
+    type: 'object',
+    required: ['middah', 'description', 'id', 'created_at', 'updated_at'],
+    title: 'KabbalahRead'
+} as const;
+
 export const MessageSchema = {
     properties: {
         message: {
@@ -192,6 +430,52 @@ export const MessageSchema = {
     type: 'object',
     required: ['message'],
     title: 'Message'
+} as const;
+
+export const MiddahCreateSchema = {
+    properties: {
+        name_transliterated: {
+            type: 'string',
+            maxLength: 80,
+            title: 'Name Transliterated'
+        },
+        name_hebrew: {
+            type: 'string',
+            maxLength: 80,
+            title: 'Name Hebrew'
+        },
+        name_english: {
+            type: 'string',
+            maxLength: 80,
+            title: 'Name English'
+        }
+    },
+    type: 'object',
+    required: ['name_transliterated', 'name_hebrew', 'name_english'],
+    title: 'MiddahCreate'
+} as const;
+
+export const MiddahReadSchema = {
+    properties: {
+        name_transliterated: {
+            type: 'string',
+            maxLength: 80,
+            title: 'Name Transliterated'
+        },
+        name_hebrew: {
+            type: 'string',
+            maxLength: 80,
+            title: 'Name Hebrew'
+        },
+        name_english: {
+            type: 'string',
+            maxLength: 80,
+            title: 'Name English'
+        }
+    },
+    type: 'object',
+    required: ['name_transliterated', 'name_hebrew', 'name_english'],
+    title: 'MiddahRead'
 } as const;
 
 export const NewPasswordSchema = {
@@ -235,6 +519,84 @@ export const PrivateUserCreateSchema = {
     type: 'object',
     required: ['email', 'password', 'full_name'],
     title: 'PrivateUserCreate'
+} as const;
+
+export const ReminderPhraseCreateSchema = {
+    properties: {
+        middah: {
+            type: 'string',
+            maxLength: 80,
+            title: 'Middah'
+        },
+        text: {
+            type: 'string',
+            title: 'Text'
+        }
+    },
+    type: 'object',
+    required: ['middah', 'text'],
+    title: 'ReminderPhraseCreate'
+} as const;
+
+export const ReminderPhrasePatchSchema = {
+    properties: {
+        middah: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 80
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Middah'
+        },
+        text: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Text'
+        }
+    },
+    type: 'object',
+    title: 'ReminderPhrasePatch'
+} as const;
+
+export const ReminderPhraseReadSchema = {
+    properties: {
+        middah: {
+            type: 'string',
+            maxLength: 80,
+            title: 'Middah'
+        },
+        text: {
+            type: 'string',
+            title: 'Text'
+        },
+        id: {
+            type: 'integer',
+            title: 'Id'
+        },
+        created_at: {
+            type: 'string',
+            format: 'date-time',
+            title: 'Created At'
+        },
+        updated_at: {
+            type: 'string',
+            format: 'date-time',
+            title: 'Updated At'
+        }
+    },
+    type: 'object',
+    required: ['middah', 'text', 'id', 'created_at', 'updated_at'],
+    title: 'ReminderPhraseRead'
 } as const;
 
 export const TokenSchema = {
@@ -523,4 +885,140 @@ export const ValidationErrorSchema = {
     type: 'object',
     required: ['loc', 'msg', 'type'],
     title: 'ValidationError'
+} as const;
+
+export const WeeklyTextCreateSchema = {
+    properties: {
+        sefaria_url: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Sefaria Url'
+        },
+        title: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Title'
+        },
+        content: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Content'
+        }
+    },
+    type: 'object',
+    required: ['sefaria_url', 'title', 'content'],
+    title: 'WeeklyTextCreate'
+} as const;
+
+export const WeeklyTextPatchSchema = {
+    properties: {
+        sefaria_url: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Sefaria Url'
+        },
+        title: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Title'
+        },
+        content: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Content'
+        }
+    },
+    type: 'object',
+    title: 'WeeklyTextPatch'
+} as const;
+
+export const WeeklyTextReadSchema = {
+    properties: {
+        sefaria_url: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Sefaria Url'
+        },
+        title: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Title'
+        },
+        content: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Content'
+        },
+        id: {
+            type: 'integer',
+            title: 'Id'
+        },
+        created_at: {
+            type: 'string',
+            format: 'date-time',
+            title: 'Created At'
+        },
+        updated_at: {
+            type: 'string',
+            format: 'date-time',
+            title: 'Updated At'
+        }
+    },
+    type: 'object',
+    required: ['sefaria_url', 'title', 'content', 'id', 'created_at', 'updated_at'],
+    title: 'WeeklyTextRead'
 } as const;
