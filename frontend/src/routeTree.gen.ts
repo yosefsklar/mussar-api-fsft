@@ -16,6 +16,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as LayoutRouteImport } from './routes/_layout'
 import { Route as LayoutIndexRouteImport } from './routes/_layout/index'
 import { Route as LayoutSettingsRouteImport } from './routes/_layout/settings'
+import { Route as LayoutReminderPhrasesRouteImport } from './routes/_layout/reminder-phrases'
 import { Route as LayoutMiddotRouteImport } from './routes/_layout/middot'
 import { Route as LayoutItemsRouteImport } from './routes/_layout/items'
 import { Route as LayoutAdminRouteImport } from './routes/_layout/admin'
@@ -54,6 +55,11 @@ const LayoutSettingsRoute = LayoutSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => LayoutRoute,
 } as any)
+const LayoutReminderPhrasesRoute = LayoutReminderPhrasesRouteImport.update({
+  id: '/reminder-phrases',
+  path: '/reminder-phrases',
+  getParentRoute: () => LayoutRoute,
+} as any)
 const LayoutMiddotRoute = LayoutMiddotRouteImport.update({
   id: '/middot',
   path: '/middot',
@@ -78,6 +84,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof LayoutAdminRoute
   '/items': typeof LayoutItemsRoute
   '/middot': typeof LayoutMiddotRoute
+  '/reminder-phrases': typeof LayoutReminderPhrasesRoute
   '/settings': typeof LayoutSettingsRoute
   '/': typeof LayoutIndexRoute
 }
@@ -89,6 +96,7 @@ export interface FileRoutesByTo {
   '/admin': typeof LayoutAdminRoute
   '/items': typeof LayoutItemsRoute
   '/middot': typeof LayoutMiddotRoute
+  '/reminder-phrases': typeof LayoutReminderPhrasesRoute
   '/settings': typeof LayoutSettingsRoute
   '/': typeof LayoutIndexRoute
 }
@@ -102,6 +110,7 @@ export interface FileRoutesById {
   '/_layout/admin': typeof LayoutAdminRoute
   '/_layout/items': typeof LayoutItemsRoute
   '/_layout/middot': typeof LayoutMiddotRoute
+  '/_layout/reminder-phrases': typeof LayoutReminderPhrasesRoute
   '/_layout/settings': typeof LayoutSettingsRoute
   '/_layout/': typeof LayoutIndexRoute
 }
@@ -115,6 +124,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/items'
     | '/middot'
+    | '/reminder-phrases'
     | '/settings'
     | '/'
   fileRoutesByTo: FileRoutesByTo
@@ -126,6 +136,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/items'
     | '/middot'
+    | '/reminder-phrases'
     | '/settings'
     | '/'
   id:
@@ -138,6 +149,7 @@ export interface FileRouteTypes {
     | '/_layout/admin'
     | '/_layout/items'
     | '/_layout/middot'
+    | '/_layout/reminder-phrases'
     | '/_layout/settings'
     | '/_layout/'
   fileRoutesById: FileRoutesById
@@ -201,6 +213,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutSettingsRouteImport
       parentRoute: typeof LayoutRoute
     }
+    '/_layout/reminder-phrases': {
+      id: '/_layout/reminder-phrases'
+      path: '/reminder-phrases'
+      fullPath: '/reminder-phrases'
+      preLoaderRoute: typeof LayoutReminderPhrasesRouteImport
+      parentRoute: typeof LayoutRoute
+    }
     '/_layout/middot': {
       id: '/_layout/middot'
       path: '/middot'
@@ -229,6 +248,7 @@ interface LayoutRouteChildren {
   LayoutAdminRoute: typeof LayoutAdminRoute
   LayoutItemsRoute: typeof LayoutItemsRoute
   LayoutMiddotRoute: typeof LayoutMiddotRoute
+  LayoutReminderPhrasesRoute: typeof LayoutReminderPhrasesRoute
   LayoutSettingsRoute: typeof LayoutSettingsRoute
   LayoutIndexRoute: typeof LayoutIndexRoute
 }
@@ -237,6 +257,7 @@ const LayoutRouteChildren: LayoutRouteChildren = {
   LayoutAdminRoute: LayoutAdminRoute,
   LayoutItemsRoute: LayoutItemsRoute,
   LayoutMiddotRoute: LayoutMiddotRoute,
+  LayoutReminderPhrasesRoute: LayoutReminderPhrasesRoute,
   LayoutSettingsRoute: LayoutSettingsRoute,
   LayoutIndexRoute: LayoutIndexRoute,
 }
