@@ -76,7 +76,7 @@ function ReminderPhrasesTable() {
               {reminderPhrase.middah}
             </Table.Cell>
             <Table.Cell truncate maxW="lg">
-              {reminderPhrase.text}
+              "{reminderPhrase.text}"
             </Table.Cell>
             <Table.Cell>
               <ReminderPhraseActionsMenu reminderPhrase={reminderPhrase} />
