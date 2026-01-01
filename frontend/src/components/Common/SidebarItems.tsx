@@ -12,7 +12,7 @@ import type { UserPublic } from "@/client"
 const items = [
   { icon: FiHome, title: "Dashboard", path: "/" },
   { icon: FiBriefcase, title: "Items", path: "/items" },
-  { icon: IoFlameOutline, title: "Middot", path: "/middot" },
+  { icon: IoFlameOutline , title: "Middot", path: "/middot" },
   { icon: LuSpeech, title: "Reminder Phrases", path: "/reminder-phrases" },
   { icon: FiSettings, title: "User Settings", path: "/settings" },
 ]
@@ -37,19 +37,23 @@ const SidebarItems = ({ onClose }: SidebarItemsProps) => {
 
   const listItems = finalItems.map(({ icon, title, path }) => (
     <RouterLink key={title} to={path} onClick={onClose}>
-      <Flex
-        gap={4}
-        px={4}
-        py={2}
-        _hover={{
-          background: "gray.subtle",
-        }}
-        alignItems="center"
-        fontSize="sm"
-      >
-        <Icon as={icon} alignSelf="center" />
-        <Text ml={2}>{title}</Text>
-      </Flex>
+      {({ isActive }) => (
+        <Flex
+          gap={4}
+          px={4}
+          py={2}
+          bg={isActive ? "gray.subtle" : "transparent"}
+          color={isActive ? "#B71C1C" : "inherit"}
+          _hover={{
+            background: isActive ? "gray.subtle" : "red.subtle",
+          }}
+          alignItems="center"
+          fontSize="sm"
+        >
+          <Icon as={icon} alignSelf="center" />
+          <Text ml={2}>{title}</Text>
+        </Flex>
+      )}
     </RouterLink>
   ))
 
