@@ -119,12 +119,17 @@ const EditReminderPhrase = ({ reminderPhrase }: EditReminderPhraseProps) => {
                 errorText={errors.text?.message}
                 label="Text"
               >
-                <Textarea
+                <Input
                   {...register("text", {
-                    required: "Text is required",
+                    required: "Text is required.",
                   })}
                   placeholder="Enter reminder phrase text"
-                  rows={4}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && !e.shiftKey) {
+                      e.preventDefault()
+                      handleSubmit(onSubmit)()
+                    }
+                  }}
                 />
               </Field>
             </VStack>
