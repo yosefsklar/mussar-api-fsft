@@ -83,7 +83,7 @@ function MiddotTable() {
             </Table.Cell>
           </Table.Row>
         ))}
-      </Table.Body> 
+      </Table.Body>
     </Table.Root>
   )
 }

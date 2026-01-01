@@ -3,7 +3,7 @@ import { useQueryClient } from "@tanstack/react-query"
 import { Link as RouterLink } from "@tanstack/react-router"
 
 import { FiBriefcase, FiHome, FiSettings, FiUsers } from "react-icons/fi"
-import { IoFlameOutline } from "react-icons/io5";
+import { IoFlameOutline } from "react-icons/io5"
 import { LuSpeech } from "react-icons/lu"
 import type { IconType } from "react-icons/lib"
 
