@@ -5,7 +5,6 @@ import {
   DialogTitle,
   Input,
   Text,
-  Textarea,
   VStack,
 } from "@chakra-ui/react"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
