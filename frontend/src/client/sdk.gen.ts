@@ -3,7 +3,103 @@
 import type { CancelablePromise } from './core/CancelablePromise';
 import { OpenAPI } from './core/OpenAPI';
 import { request as __request } from './core/request';
-import type { ItemsReadItemsData, ItemsReadItemsResponse, ItemsCreateItemData, ItemsCreateItemResponse, ItemsReadItemData, ItemsReadItemResponse, ItemsUpdateItemData, ItemsUpdateItemResponse, ItemsDeleteItemData, ItemsDeleteItemResponse, LoginLoginAccessTokenData, LoginLoginAccessTokenResponse, LoginTestTokenResponse, LoginRecoverPasswordData, LoginRecoverPasswordResponse, LoginResetPasswordData, LoginResetPasswordResponse, LoginRecoverPasswordHtmlContentData, LoginRecoverPasswordHtmlContentResponse, PrivateCreateUserData, PrivateCreateUserResponse, UsersReadUsersData, UsersReadUsersResponse, UsersCreateUserData, UsersCreateUserResponse, UsersReadUserMeResponse, UsersDeleteUserMeResponse, UsersUpdateUserMeData, UsersUpdateUserMeResponse, UsersUpdatePasswordMeData, UsersUpdatePasswordMeResponse, UsersRegisterUserData, UsersRegisterUserResponse, UsersReadUserByIdData, UsersReadUserByIdResponse, UsersUpdateUserData, UsersUpdateUserResponse, UsersDeleteUserData, UsersDeleteUserResponse, UtilsTestEmailData, UtilsTestEmailResponse, UtilsHealthCheckResponse } from './types.gen';
+import type { DailyTextsListDailyTextsResponse, DailyTextsCreateDailyTextData, DailyTextsCreateDailyTextResponse, DailyTextsGetDailyTextData, DailyTextsGetDailyTextResponse, DailyTextsPatchDailyTextData, DailyTextsPatchDailyTextResponse, DailyTextsDeleteDailyTextData, DailyTextsDeleteDailyTextResponse, ItemsReadItemsData, ItemsReadItemsResponse, ItemsCreateItemData, ItemsCreateItemResponse, ItemsReadItemData, ItemsReadItemResponse, ItemsUpdateItemData, ItemsUpdateItemResponse, ItemsDeleteItemData, ItemsDeleteItemResponse, KabbalotListKabbalotResponse, KabbalotCreateKabbalahData, KabbalotCreateKabbalahResponse, KabbalotGetKabbalahData, KabbalotGetKabbalahResponse, KabbalotPatchKabbalahData, KabbalotPatchKabbalahResponse, KabbalotDeleteKabbalahData, KabbalotDeleteKabbalahResponse, LoginLoginAccessTokenData, LoginLoginAccessTokenResponse, LoginTestTokenResponse, LoginRecoverPasswordData, LoginRecoverPasswordResponse, LoginResetPasswordData, LoginResetPasswordResponse, LoginRecoverPasswordHtmlContentData, LoginRecoverPasswordHtmlContentResponse, MiddotListMiddotResponse, MiddotCreateMiddahData, MiddotCreateMiddahResponse, MiddotGetMiddahData, MiddotGetMiddahResponse, MiddotDeleteMiddahData, MiddotDeleteMiddahResponse, PrivateCreateUserData, PrivateCreateUserResponse, ReminderPhrasesListReminderPhrasesResponse, ReminderPhrasesCreateReminderPhraseData, ReminderPhrasesCreateReminderPhraseResponse, ReminderPhrasesGetReminderPhraseData, ReminderPhrasesGetReminderPhraseResponse, ReminderPhrasesPatchReminderPhraseData, ReminderPhrasesPatchReminderPhraseResponse, ReminderPhrasesDeleteReminderPhraseData, ReminderPhrasesDeleteReminderPhraseResponse, UsersReadUsersData, UsersReadUsersResponse, UsersCreateUserData, UsersCreateUserResponse, UsersReadUserMeResponse, UsersDeleteUserMeResponse, UsersUpdateUserMeData, UsersUpdateUserMeResponse, UsersUpdatePasswordMeData, UsersUpdatePasswordMeResponse, UsersRegisterUserData, UsersRegisterUserResponse, UsersReadUserByIdData, UsersReadUserByIdResponse, UsersUpdateUserData, UsersUpdateUserResponse, UsersDeleteUserData, UsersDeleteUserResponse, UtilsTestEmailData, UtilsTestEmailResponse, UtilsHealthCheckResponse, WeeklyTextsListWeeklyTextsResponse, WeeklyTextsCreateWeeklyTextData, WeeklyTextsCreateWeeklyTextResponse, WeeklyTextsGetWeeklyTextData, WeeklyTextsGetWeeklyTextResponse, WeeklyTextsPatchWeeklyTextData, WeeklyTextsPatchWeeklyTextResponse, WeeklyTextsDeleteWeeklyTextData, WeeklyTextsDeleteWeeklyTextResponse } from './types.gen';
+
+export class DailyTextsService {
+    /**
+     * List Daily Texts
+     * @returns DailyTextRead Successful Response
+     * @throws ApiError
+     */
+    public static listDailyTexts(): CancelablePromise<DailyTextsListDailyTextsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/daily_texts/'
+        });
+    }
+    
+    /**
+     * Create Daily Text
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns DailyTextRead Successful Response
+     * @throws ApiError
+     */
+    public static createDailyText(data: DailyTextsCreateDailyTextData): CancelablePromise<DailyTextsCreateDailyTextResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/daily_texts/',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Get Daily Text
+     * @param data The data for the request.
+     * @param data.id
+     * @returns DailyTextRead Successful Response
+     * @throws ApiError
+     */
+    public static getDailyText(data: DailyTextsGetDailyTextData): CancelablePromise<DailyTextsGetDailyTextResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/daily_texts/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Patch Daily Text
+     * @param data The data for the request.
+     * @param data.id
+     * @param data.requestBody
+     * @returns DailyTextRead Successful Response
+     * @throws ApiError
+     */
+    public static patchDailyText(data: DailyTextsPatchDailyTextData): CancelablePromise<DailyTextsPatchDailyTextResponse> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/v1/daily_texts/{id}',
+            path: {
+                id: data.id
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete Daily Text
+     * @param data The data for the request.
+     * @param data.id
+     * @returns void Successful Response
+     * @throws ApiError
+     */
+    public static deleteDailyText(data: DailyTextsDeleteDailyTextData): CancelablePromise<DailyTextsDeleteDailyTextResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/daily_texts/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+}
 
 export class ItemsService {
     /**
@@ -116,6 +212,102 @@ export class ItemsService {
     }
 }
 
+export class KabbalotService {
+    /**
+     * List Kabbalot
+     * @returns KabbalahRead Successful Response
+     * @throws ApiError
+     */
+    public static listKabbalot(): CancelablePromise<KabbalotListKabbalotResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/kabbalot/'
+        });
+    }
+    
+    /**
+     * Create Kabbalah
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns KabbalahRead Successful Response
+     * @throws ApiError
+     */
+    public static createKabbalah(data: KabbalotCreateKabbalahData): CancelablePromise<KabbalotCreateKabbalahResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/kabbalot/',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Get Kabbalah
+     * @param data The data for the request.
+     * @param data.id
+     * @returns KabbalahRead Successful Response
+     * @throws ApiError
+     */
+    public static getKabbalah(data: KabbalotGetKabbalahData): CancelablePromise<KabbalotGetKabbalahResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/kabbalot/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Patch Kabbalah
+     * @param data The data for the request.
+     * @param data.id
+     * @param data.requestBody
+     * @returns KabbalahRead Successful Response
+     * @throws ApiError
+     */
+    public static patchKabbalah(data: KabbalotPatchKabbalahData): CancelablePromise<KabbalotPatchKabbalahResponse> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/v1/kabbalot/{id}',
+            path: {
+                id: data.id
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete Kabbalah
+     * @param data The data for the request.
+     * @param data.id
+     * @returns void Successful Response
+     * @throws ApiError
+     */
+    public static deleteKabbalah(data: KabbalotDeleteKabbalahData): CancelablePromise<KabbalotDeleteKabbalahResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/kabbalot/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+}
+
 export class LoginService {
     /**
      * Login Access Token
@@ -213,6 +405,81 @@ export class LoginService {
     }
 }
 
+export class MiddotService {
+    /**
+     * List Middot
+     * Retrieve middot.
+     * @returns MiddahRead Successful Response
+     * @throws ApiError
+     */
+    public static listMiddot(): CancelablePromise<MiddotListMiddotResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/middot/'
+        });
+    }
+    
+    /**
+     * Create Middah
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns MiddahRead Successful Response
+     * @throws ApiError
+     */
+    public static createMiddah(data: MiddotCreateMiddahData): CancelablePromise<MiddotCreateMiddahResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/middot/',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Get Middah
+     * Get middah by name_transliterated.
+     * @param data The data for the request.
+     * @param data.nameTransliterated
+     * @returns MiddahRead Successful Response
+     * @throws ApiError
+     */
+    public static getMiddah(data: MiddotGetMiddahData): CancelablePromise<MiddotGetMiddahResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/middot/{name_transliterated}',
+            path: {
+                name_transliterated: data.nameTransliterated
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete Middah
+     * @param data The data for the request.
+     * @param data.nameTransliterated
+     * @returns void Successful Response
+     * @throws ApiError
+     */
+    public static deleteMiddah(data: MiddotDeleteMiddahData): CancelablePromise<MiddotDeleteMiddahResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/middot/{name_transliterated}',
+            path: {
+                name_transliterated: data.nameTransliterated
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+}
+
 export class PrivateService {
     /**
      * Create User
@@ -228,6 +495,102 @@ export class PrivateService {
             url: '/api/v1/private/users/',
             body: data.requestBody,
             mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+}
+
+export class ReminderPhrasesService {
+    /**
+     * List Reminder Phrases
+     * @returns ReminderPhraseRead Successful Response
+     * @throws ApiError
+     */
+    public static listReminderPhrases(): CancelablePromise<ReminderPhrasesListReminderPhrasesResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/reminder_phrases/'
+        });
+    }
+    
+    /**
+     * Create Reminder Phrase
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns ReminderPhraseRead Successful Response
+     * @throws ApiError
+     */
+    public static createReminderPhrase(data: ReminderPhrasesCreateReminderPhraseData): CancelablePromise<ReminderPhrasesCreateReminderPhraseResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/reminder_phrases/',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Get Reminder Phrase
+     * @param data The data for the request.
+     * @param data.id
+     * @returns ReminderPhraseRead Successful Response
+     * @throws ApiError
+     */
+    public static getReminderPhrase(data: ReminderPhrasesGetReminderPhraseData): CancelablePromise<ReminderPhrasesGetReminderPhraseResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/reminder_phrases/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Patch Reminder Phrase
+     * @param data The data for the request.
+     * @param data.id
+     * @param data.requestBody
+     * @returns ReminderPhraseRead Successful Response
+     * @throws ApiError
+     */
+    public static patchReminderPhrase(data: ReminderPhrasesPatchReminderPhraseData): CancelablePromise<ReminderPhrasesPatchReminderPhraseResponse> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/v1/reminder_phrases/{id}',
+            path: {
+                id: data.id
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete Reminder Phrase
+     * @param data The data for the request.
+     * @param data.id
+     * @returns void Successful Response
+     * @throws ApiError
+     */
+    public static deleteReminderPhrase(data: ReminderPhrasesDeleteReminderPhraseData): CancelablePromise<ReminderPhrasesDeleteReminderPhraseResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/reminder_phrases/{id}',
+            path: {
+                id: data.id
+            },
             errors: {
                 422: 'Validation Error'
             }
@@ -463,6 +826,102 @@ export class UtilsService {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/utils/health-check/'
+        });
+    }
+}
+
+export class WeeklyTextsService {
+    /**
+     * List Weekly Texts
+     * @returns WeeklyTextRead Successful Response
+     * @throws ApiError
+     */
+    public static listWeeklyTexts(): CancelablePromise<WeeklyTextsListWeeklyTextsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/weekly_texts/'
+        });
+    }
+    
+    /**
+     * Create Weekly Text
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns WeeklyTextRead Successful Response
+     * @throws ApiError
+     */
+    public static createWeeklyText(data: WeeklyTextsCreateWeeklyTextData): CancelablePromise<WeeklyTextsCreateWeeklyTextResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/weekly_texts/',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Get Weekly Text
+     * @param data The data for the request.
+     * @param data.id
+     * @returns WeeklyTextRead Successful Response
+     * @throws ApiError
+     */
+    public static getWeeklyText(data: WeeklyTextsGetWeeklyTextData): CancelablePromise<WeeklyTextsGetWeeklyTextResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/weekly_texts/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Patch Weekly Text
+     * @param data The data for the request.
+     * @param data.id
+     * @param data.requestBody
+     * @returns WeeklyTextRead Successful Response
+     * @throws ApiError
+     */
+    public static patchWeeklyText(data: WeeklyTextsPatchWeeklyTextData): CancelablePromise<WeeklyTextsPatchWeeklyTextResponse> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/v1/weekly_texts/{id}',
+            path: {
+                id: data.id
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete Weekly Text
+     * @param data The data for the request.
+     * @param data.id
+     * @returns void Successful Response
+     * @throws ApiError
+     */
+    public static deleteWeeklyText(data: WeeklyTextsDeleteWeeklyTextData): CancelablePromise<WeeklyTextsDeleteWeeklyTextResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/weekly_texts/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
         });
     }
 }

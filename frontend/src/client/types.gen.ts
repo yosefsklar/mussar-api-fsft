@@ -9,6 +9,30 @@ export type Body_login_login_access_token = {
     client_secret?: (string | null);
 };
 
+export type DailyTextCreate = {
+    middah: string;
+    sefaria_url: (string | null);
+    title: (string | null);
+    content: (string | null);
+};
+
+export type DailyTextPatch = {
+    middah?: (string | null);
+    sefaria_url?: (string | null);
+    title?: (string | null);
+    content?: (string | null);
+};
+
+export type DailyTextRead = {
+    middah: string;
+    sefaria_url: (string | null);
+    title: (string | null);
+    content: (string | null);
+    id: number;
+    created_at: string;
+    updated_at: string;
+};
+
 export type HTTPValidationError = {
     detail?: Array<ValidationError>;
 };
@@ -35,8 +59,38 @@ export type ItemUpdate = {
     description?: (string | null);
 };
 
+export type KabbalahCreate = {
+    middah: string;
+    description: string;
+};
+
+export type KabbalahPatch = {
+    middah?: (string | null);
+    description?: (string | null);
+};
+
+export type KabbalahRead = {
+    middah: string;
+    description: string;
+    id: number;
+    created_at: string;
+    updated_at: string;
+};
+
 export type Message = {
     message: string;
+};
+
+export type MiddahCreate = {
+    name_transliterated: string;
+    name_hebrew: string;
+    name_english: string;
+};
+
+export type MiddahRead = {
+    name_transliterated: string;
+    name_hebrew: string;
+    name_english: string;
 };
 
 export type NewPassword = {
@@ -49,6 +103,24 @@ export type PrivateUserCreate = {
     password: string;
     full_name: string;
     is_verified?: boolean;
+};
+
+export type ReminderPhraseCreate = {
+    middah: string;
+    text: string;
+};
+
+export type ReminderPhrasePatch = {
+    middah?: (string | null);
+    text?: (string | null);
+};
+
+export type ReminderPhraseRead = {
+    middah: string;
+    text: string;
+    id: number;
+    created_at: string;
+    updated_at: string;
 };
 
 export type Token = {
@@ -107,6 +179,54 @@ export type ValidationError = {
     type: string;
 };
 
+export type WeeklyTextCreate = {
+    sefaria_url: (string | null);
+    title: (string | null);
+    content: (string | null);
+};
+
+export type WeeklyTextPatch = {
+    sefaria_url?: (string | null);
+    title?: (string | null);
+    content?: (string | null);
+};
+
+export type WeeklyTextRead = {
+    sefaria_url: (string | null);
+    title: (string | null);
+    content: (string | null);
+    id: number;
+    created_at: string;
+    updated_at: string;
+};
+
+export type DailyTextsListDailyTextsResponse = (Array<DailyTextRead>);
+
+export type DailyTextsCreateDailyTextData = {
+    requestBody: DailyTextCreate;
+};
+
+export type DailyTextsCreateDailyTextResponse = (DailyTextRead);
+
+export type DailyTextsGetDailyTextData = {
+    id: number;
+};
+
+export type DailyTextsGetDailyTextResponse = (DailyTextRead);
+
+export type DailyTextsPatchDailyTextData = {
+    id: number;
+    requestBody: DailyTextPatch;
+};
+
+export type DailyTextsPatchDailyTextResponse = (DailyTextRead);
+
+export type DailyTextsDeleteDailyTextData = {
+    id: number;
+};
+
+export type DailyTextsDeleteDailyTextResponse = (void);
+
 export type ItemsReadItemsData = {
     limit?: number;
     skip?: number;
@@ -139,6 +259,33 @@ export type ItemsDeleteItemData = {
 
 export type ItemsDeleteItemResponse = (Message);
 
+export type KabbalotListKabbalotResponse = (Array<KabbalahRead>);
+
+export type KabbalotCreateKabbalahData = {
+    requestBody: KabbalahCreate;
+};
+
+export type KabbalotCreateKabbalahResponse = (KabbalahRead);
+
+export type KabbalotGetKabbalahData = {
+    id: number;
+};
+
+export type KabbalotGetKabbalahResponse = (KabbalahRead);
+
+export type KabbalotPatchKabbalahData = {
+    id: number;
+    requestBody: KabbalahPatch;
+};
+
+export type KabbalotPatchKabbalahResponse = (KabbalahRead);
+
+export type KabbalotDeleteKabbalahData = {
+    id: number;
+};
+
+export type KabbalotDeleteKabbalahResponse = (void);
+
 export type LoginLoginAccessTokenData = {
     formData: Body_login_login_access_token;
 };
@@ -165,11 +312,58 @@ export type LoginRecoverPasswordHtmlContentData = {
 
 export type LoginRecoverPasswordHtmlContentResponse = (string);
 
+export type MiddotListMiddotResponse = (Array<MiddahRead>);
+
+export type MiddotCreateMiddahData = {
+    requestBody: MiddahCreate;
+};
+
+export type MiddotCreateMiddahResponse = (MiddahRead);
+
+export type MiddotGetMiddahData = {
+    nameTransliterated: string;
+};
+
+export type MiddotGetMiddahResponse = (MiddahRead);
+
+export type MiddotDeleteMiddahData = {
+    nameTransliterated: string;
+};
+
+export type MiddotDeleteMiddahResponse = (void);
+
 export type PrivateCreateUserData = {
     requestBody: PrivateUserCreate;
 };
 
 export type PrivateCreateUserResponse = (UserPublic);
+
+export type ReminderPhrasesListReminderPhrasesResponse = (Array<ReminderPhraseRead>);
+
+export type ReminderPhrasesCreateReminderPhraseData = {
+    requestBody: ReminderPhraseCreate;
+};
+
+export type ReminderPhrasesCreateReminderPhraseResponse = (ReminderPhraseRead);
+
+export type ReminderPhrasesGetReminderPhraseData = {
+    id: number;
+};
+
+export type ReminderPhrasesGetReminderPhraseResponse = (ReminderPhraseRead);
+
+export type ReminderPhrasesPatchReminderPhraseData = {
+    id: number;
+    requestBody: ReminderPhrasePatch;
+};
+
+export type ReminderPhrasesPatchReminderPhraseResponse = (ReminderPhraseRead);
+
+export type ReminderPhrasesDeleteReminderPhraseData = {
+    id: number;
+};
+
+export type ReminderPhrasesDeleteReminderPhraseResponse = (void);
 
 export type UsersReadUsersData = {
     limit?: number;
@@ -232,3 +426,30 @@ export type UtilsTestEmailData = {
 export type UtilsTestEmailResponse = (Message);
 
 export type UtilsHealthCheckResponse = (boolean);
+
+export type WeeklyTextsListWeeklyTextsResponse = (Array<WeeklyTextRead>);
+
+export type WeeklyTextsCreateWeeklyTextData = {
+    requestBody: WeeklyTextCreate;
+};
+
+export type WeeklyTextsCreateWeeklyTextResponse = (WeeklyTextRead);
+
+export type WeeklyTextsGetWeeklyTextData = {
+    id: number;
+};
+
+export type WeeklyTextsGetWeeklyTextResponse = (WeeklyTextRead);
+
+export type WeeklyTextsPatchWeeklyTextData = {
+    id: number;
+    requestBody: WeeklyTextPatch;
+};
+
+export type WeeklyTextsPatchWeeklyTextResponse = (WeeklyTextRead);
+
+export type WeeklyTextsDeleteWeeklyTextData = {
+    id: number;
+};
+
+export type WeeklyTextsDeleteWeeklyTextResponse = (void);
