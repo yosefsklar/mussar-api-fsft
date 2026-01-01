@@ -45,7 +45,9 @@ const SidebarItems = ({ onClose }: SidebarItemsProps) => {
           bg={isActive ? "gray.subtle" : "transparent"}
           color={isActive ? "#B71C1C" : "inherit"}
           _hover={{
-            background: isActive ? "gray.subtle" : "red.subtle",
+            background: isActive ? "gray.subtle" : "#B71C1C",
+            color: isActive ? " #B71C1C" : "white",
+            textDecoration: "none",
           }}
           alignItems="center"
           fontSize="sm"
