@@ -12,7 +12,7 @@ import type { UserPublic } from "@/client"
 const items = [
   { icon: FiHome, title: "Dashboard", path: "/" },
   { icon: FiBriefcase, title: "Items", path: "/items" },
-  { icon: IoFlameOutline , title: "Middot", path: "/middot" },
+  { icon: IoFlameOutline, title: "Middot", path: "/middot" },
   { icon: LuSpeech, title: "Reminder Phrases", path: "/reminder-phrases" },
   { icon: FiSettings, title: "User Settings", path: "/settings" },
 ]
