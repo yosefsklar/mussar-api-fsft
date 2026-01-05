@@ -43,10 +43,10 @@ const SidebarItems = ({ onClose }: SidebarItemsProps) => {
           px={4}
           py={2}
           bg={isActive ? "gray.subtle" : "transparent"}
-          color={isActive ? "#B71C1C" : "inherit"}
+          color={isActive ? "ui.sidebarRed" : "inherit"}
           _hover={{
-            background: isActive ? "gray.subtle" : "#B71C1C",
-            color: isActive ? " #B71C1C" : "white",
+            background: isActive ? "gray.subtle" : "ui.sidebarRed",
+            color: isActive ? "ui.sidebarRed" : "white",
             textDecoration: "none",
           }}
           alignItems="center"
