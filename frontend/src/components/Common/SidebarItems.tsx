@@ -37,19 +37,25 @@ const SidebarItems = ({ onClose }: SidebarItemsProps) => {
 
   const listItems = finalItems.map(({ icon, title, path }) => (
     <RouterLink key={title} to={path} onClick={onClose}>
-      <Flex
-        gap={4}
-        px={4}
-        py={2}
-        _hover={{
-          background: "gray.subtle",
-        }}
-        alignItems="center"
-        fontSize="sm"
-      >
-        <Icon as={icon} alignSelf="center" />
-        <Text ml={2}>{title}</Text>
-      </Flex>
+      {({ isActive }) => (
+        <Flex
+          gap={4}
+          px={4}
+          py={2}
+          bg={isActive ? "gray.subtle" : "transparent"}
+          color={isActive ? "ui.sidebarRed" : "inherit"}
+          _hover={{
+            background: isActive ? "gray.subtle" : "ui.sidebarRed",
+            color: isActive ? "ui.sidebarRed" : "white",
+            textDecoration: "none",
+          }}
+          alignItems="center"
+          fontSize="sm"
+        >
+          <Icon as={icon} alignSelf="center" />
+          <Text ml={2}>{title}</Text>
+        </Flex>
+      )}
     </RouterLink>
   ))
 
