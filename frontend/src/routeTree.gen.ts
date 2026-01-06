@@ -18,6 +18,7 @@ import { Route as LayoutIndexRouteImport } from './routes/_layout/index'
 import { Route as LayoutSettingsRouteImport } from './routes/_layout/settings'
 import { Route as LayoutReminderPhrasesRouteImport } from './routes/_layout/reminder-phrases'
 import { Route as LayoutMiddotRouteImport } from './routes/_layout/middot'
+import { Route as LayoutKabbalotRouteImport } from './routes/_layout/kabbalot'
 import { Route as LayoutItemsRouteImport } from './routes/_layout/items'
 import { Route as LayoutAdminRouteImport } from './routes/_layout/admin'
 
@@ -65,6 +66,11 @@ const LayoutMiddotRoute = LayoutMiddotRouteImport.update({
   path: '/middot',
   getParentRoute: () => LayoutRoute,
 } as any)
+const LayoutKabbalotRoute = LayoutKabbalotRouteImport.update({
+  id: '/kabbalot',
+  path: '/kabbalot',
+  getParentRoute: () => LayoutRoute,
+} as any)
 const LayoutItemsRoute = LayoutItemsRouteImport.update({
   id: '/items',
   path: '/items',
@@ -83,6 +89,7 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/admin': typeof LayoutAdminRoute
   '/items': typeof LayoutItemsRoute
+  '/kabbalot': typeof LayoutKabbalotRoute
   '/middot': typeof LayoutMiddotRoute
   '/reminder-phrases': typeof LayoutReminderPhrasesRoute
   '/settings': typeof LayoutSettingsRoute
@@ -95,6 +102,7 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/admin': typeof LayoutAdminRoute
   '/items': typeof LayoutItemsRoute
+  '/kabbalot': typeof LayoutKabbalotRoute
   '/middot': typeof LayoutMiddotRoute
   '/reminder-phrases': typeof LayoutReminderPhrasesRoute
   '/settings': typeof LayoutSettingsRoute
@@ -109,6 +117,7 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/_layout/admin': typeof LayoutAdminRoute
   '/_layout/items': typeof LayoutItemsRoute
+  '/_layout/kabbalot': typeof LayoutKabbalotRoute
   '/_layout/middot': typeof LayoutMiddotRoute
   '/_layout/reminder-phrases': typeof LayoutReminderPhrasesRoute
   '/_layout/settings': typeof LayoutSettingsRoute
@@ -123,6 +132,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/admin'
     | '/items'
+    | '/kabbalot'
     | '/middot'
     | '/reminder-phrases'
     | '/settings'
@@ -135,6 +145,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/admin'
     | '/items'
+    | '/kabbalot'
     | '/middot'
     | '/reminder-phrases'
     | '/settings'
@@ -148,6 +159,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/_layout/admin'
     | '/_layout/items'
+    | '/_layout/kabbalot'
     | '/_layout/middot'
     | '/_layout/reminder-phrases'
     | '/_layout/settings'
@@ -227,6 +239,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutMiddotRouteImport
       parentRoute: typeof LayoutRoute
     }
+    '/_layout/kabbalot': {
+      id: '/_layout/kabbalot'
+      path: '/kabbalot'
+      fullPath: '/kabbalot'
+      preLoaderRoute: typeof LayoutKabbalotRouteImport
+      parentRoute: typeof LayoutRoute
+    }
     '/_layout/items': {
       id: '/_layout/items'
       path: '/items'
@@ -247,6 +266,7 @@ declare module '@tanstack/react-router' {
 interface LayoutRouteChildren {
   LayoutAdminRoute: typeof LayoutAdminRoute
   LayoutItemsRoute: typeof LayoutItemsRoute
+  LayoutKabbalotRoute: typeof LayoutKabbalotRoute
   LayoutMiddotRoute: typeof LayoutMiddotRoute
   LayoutReminderPhrasesRoute: typeof LayoutReminderPhrasesRoute
   LayoutSettingsRoute: typeof LayoutSettingsRoute
@@ -256,6 +276,7 @@ interface LayoutRouteChildren {
 const LayoutRouteChildren: LayoutRouteChildren = {
   LayoutAdminRoute: LayoutAdminRoute,
   LayoutItemsRoute: LayoutItemsRoute,
+  LayoutKabbalotRoute: LayoutKabbalotRoute,
   LayoutMiddotRoute: LayoutMiddotRoute,
   LayoutReminderPhrasesRoute: LayoutReminderPhrasesRoute,
   LayoutSettingsRoute: LayoutSettingsRoute,

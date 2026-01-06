@@ -12,7 +12,7 @@ import { useState } from "react"
 import { type SubmitHandler, useForm } from "react-hook-form"
 import { FaPlus } from "react-icons/fa"
 
-import { type ReminderPhraseCreate, MiddotService, ReminderPhrasesService } from "@/client"
+import { type KabbalahCreate, KabbalotService, MiddotService } from "@/client"
 import type { ApiError } from "@/client/core/ApiError"
 import useCustomToast from "@/hooks/useCustomToast"
 import { handleError } from "@/utils"
@@ -34,7 +34,7 @@ import {
 } from "../ui/dialog"
 import { Field } from "../ui/field"
 
-const AddReminderPhrase = () => {
+const AddKabbalah = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [selectedMiddah, setSelectedMiddah] = useState<string[]>([])
   const queryClient = useQueryClient()
@@ -45,12 +45,12 @@ const AddReminderPhrase = () => {
     reset,
     setValue,
     formState: { errors, isValid, isSubmitting },
-  } = useForm<ReminderPhraseCreate>({
+  } = useForm<KabbalahCreate>({
     mode: "onTouched",
     criteriaMode: "all",
     defaultValues: {
       middah: "",
-      text: "",
+      description: "",
     },
   })
 
@@ -60,10 +60,10 @@ const AddReminderPhrase = () => {
   })
 
   const mutation = useMutation({
-    mutationFn: (data: ReminderPhraseCreate) =>
-      ReminderPhrasesService.createReminderPhrase({ requestBody: data }),
+    mutationFn: (data: KabbalahCreate) =>
+      KabbalotService.createKabbalah({ requestBody: data }),
     onSuccess: () => {
-      showSuccessToast("Reminder phrase created successfully.")
+      showSuccessToast("Kabbalah created successfully.")
       reset()
       setSelectedMiddah([])
       setIsOpen(false)
@@ -72,11 +72,11 @@ const AddReminderPhrase = () => {
       handleError(err)
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["reminderPhrases"] })
+      queryClient.invalidateQueries({ queryKey: ["kabbalot"] })
     },
   })
 
-  const onSubmit: SubmitHandler<ReminderPhraseCreate> = (data) => {
+  const onSubmit: SubmitHandler<KabbalahCreate> = (data) => {
     mutation.mutate(data)
   }
 
@@ -88,18 +88,18 @@ const AddReminderPhrase = () => {
       onOpenChange={({ open }) => setIsOpen(open)}
     >
       <DialogTrigger asChild>
-        <Button value="add-reminder-phrase" my={4}>
+        <Button value="add-kabbalah" my={4}>
           <FaPlus fontSize="16px" />
-          Add Reminder Phrase
+          Add Kabbalah
         </Button>
       </DialogTrigger>
       <DialogContent>
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogHeader>
-            <DialogTitle>Add Reminder Phrase</DialogTitle>
+            <DialogTitle>Add Kabbalah</DialogTitle>
           </DialogHeader>
           <DialogBody>
-            <Text mb={4}>Fill in the details to add a new reminder phrase.</Text>
+            <Text mb={4}>Fill in the details to add a new kabbalah.</Text>
             <VStack gap={4}>
               <Field
                 required
@@ -136,15 +136,15 @@ const AddReminderPhrase = () => {
 
               <Field
                 required
-                invalid={!!errors.text}
-                errorText={errors.text?.message}
-                label="Text"
+                invalid={!!errors.description}
+                errorText={errors.description?.message}
+                label="Description"
               >
                 <Input
-                  {...register("text", {
-                    required: "Text is required.",
+                  {...register("description", {
+                    required: "Description is required.",
                   })}
-                  placeholder="Enter reminder phrase text"
+                  placeholder="Enter kabbalah description"
                   onKeyDown={(e) => {
                     if (e.key === "Enter" && !e.shiftKey) {
                       e.preventDefault()
@@ -182,4 +182,4 @@ const AddReminderPhrase = () => {
   )
 }
 
-export default AddReminderPhrase
+export default AddKabbalah

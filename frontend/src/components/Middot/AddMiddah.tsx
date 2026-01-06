@@ -36,7 +36,7 @@ const AddMiddah = () => {
     reset,
     formState: { errors, isValid, isSubmitting },
   } = useForm<MiddahCreate>({
-    mode: "onBlur",
+    mode: "o",
     criteriaMode: "all",
     defaultValues: {
       name_transliterated: "",
