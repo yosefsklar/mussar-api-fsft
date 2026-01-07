@@ -3,8 +3,8 @@ import {
   ButtonGroup,
   DialogActionTrigger,
   Input,
-  Text,
   Textarea,
+  Text,
   VStack,
 } from "@chakra-ui/react"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
@@ -12,7 +12,7 @@ import { useState } from "react"
 import { type SubmitHandler, useForm } from "react-hook-form"
 import { FaExchangeAlt } from "react-icons/fa"
 
-import { type ApiError, type ReminderPhraseRead, ReminderPhrasesService } from "@/client"
+import { type ApiError, type DailyTextRead, DailyTextsService } from "@/client"
 import useCustomToast from "@/hooks/useCustomToast"
 import { handleError } from "@/utils"
 import {
@@ -27,16 +27,18 @@ import {
 } from "../ui/dialog"
 import { Field } from "../ui/field"
 
-interface EditReminderPhraseProps {
-  reminderPhrase: ReminderPhraseRead
+interface EditDailyTextProps {
+  dailyText: DailyTextRead
 }
 
-interface ReminderPhraseUpdateForm {
+interface DailyTextUpdateForm {
   middah: string
-  text: string
+  title: string | null
+  sefaria_url: string | null
+  content: string | null
 }
 
-const EditReminderPhrase = ({ reminderPhrase }: EditReminderPhraseProps) => {
+const EditDailyText = ({ dailyText }: EditDailyTextProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const queryClient = useQueryClient()
   const { showSuccessToast } = useCustomToast()
@@ -45,23 +47,25 @@ const EditReminderPhrase = ({ reminderPhrase }: EditReminderPhraseProps) => {
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<ReminderPhraseUpdateForm>({
+  } = useForm<DailyTextUpdateForm>({
     mode: "onTouched",
     criteriaMode: "all",
     defaultValues: {
-      middah: reminderPhrase.middah,
-      text: reminderPhrase.text,
+      middah: dailyText.middah,
+      title: dailyText.title,
+      sefaria_url: dailyText.sefaria_url,
+      content: dailyText.content,
     },
   })
 
   const mutation = useMutation({
-    mutationFn: (data: ReminderPhraseUpdateForm) =>
-      ReminderPhrasesService.patchReminderPhrase({ 
-        id: reminderPhrase.id, 
+    mutationFn: (data: DailyTextUpdateForm) =>
+      DailyTextsService.patchDailyText({ 
+        id: dailyText.id, 
         requestBody: data 
       }),
     onSuccess: () => {
-      showSuccessToast("Reminder phrase updated successfully.")
+      showSuccessToast("Daily text updated successfully.")
       reset()
       setIsOpen(false)
     },
@@ -69,11 +73,11 @@ const EditReminderPhrase = ({ reminderPhrase }: EditReminderPhraseProps) => {
       handleError(err)
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["reminderPhrases"] })
+      queryClient.invalidateQueries({ queryKey: ["dailyTexts"] })
     },
   })
 
-  const onSubmit: SubmitHandler<ReminderPhraseUpdateForm> = async (data) => {
+  const onSubmit: SubmitHandler<DailyTextUpdateForm> = async (data) => {
     mutation.mutate(data)
   }
 
@@ -87,16 +91,16 @@ const EditReminderPhrase = ({ reminderPhrase }: EditReminderPhraseProps) => {
       <DialogTrigger asChild>
         <Button variant="ghost">
           <FaExchangeAlt fontSize="16px" />
-          Edit Reminder Phrase
+          Edit Daily Text
         </Button>
       </DialogTrigger>
       <DialogContent>
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogHeader>
-            <DialogTitle>Edit Reminder Phrase</DialogTitle>
+            <DialogTitle>Edit Daily Text</DialogTitle>
           </DialogHeader>
           <DialogBody>
-            <Text mb={4}>Update the reminder phrase details below.</Text>
+            <Text mb={4}>Update the daily text details below.</Text>
             <VStack gap={4}>
               <Field
                 required
@@ -114,22 +118,36 @@ const EditReminderPhrase = ({ reminderPhrase }: EditReminderPhraseProps) => {
               </Field>
 
               <Field
-                required
-                invalid={!!errors.text}
-                errorText={errors.text?.message}
-                label="Text"
+                invalid={!!errors.title}
+                errorText={errors.title?.message}
+                label="Title"
               >
                 <Input
-                  {...register("text", {
-                    required: "Text is required.",
-                  })}
-                  placeholder="Enter reminder phrase text"
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" && !e.shiftKey) {
-                      e.preventDefault()
-                      handleSubmit(onSubmit)()
-                    }
-                  }}
+                  {...register("title")}
+                  placeholder="Enter title (optional)"
+                />
+              </Field>
+
+              <Field
+                invalid={!!errors.sefaria_url}
+                errorText={errors.sefaria_url?.message}
+                label="Sefaria URL"
+              >
+                <Input
+                  {...register("sefaria_url")}
+                  placeholder="Enter Sefaria URL (optional)"
+                />
+              </Field>
+
+              <Field
+                invalid={!!errors.content}
+                errorText={errors.content?.message}
+                label="Content"
+              >
+                <Textarea
+                  {...register("content")}
+                  placeholder="Enter content (optional)"
+                  rows={4}
                 />
               </Field>
             </VStack>
@@ -158,4 +176,4 @@ const EditReminderPhrase = ({ reminderPhrase }: EditReminderPhraseProps) => {
   )
 }
 
-export default EditReminderPhrase
+export default EditDailyText

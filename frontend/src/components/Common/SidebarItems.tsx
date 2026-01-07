@@ -2,9 +2,11 @@ import { Box, Flex, Icon, Text } from "@chakra-ui/react"
 import { useQueryClient } from "@tanstack/react-query"
 import { Link as RouterLink } from "@tanstack/react-router"
 
+import { FaHandHoldingHeart } from "react-icons/fa"
 import { FiBriefcase, FiHome, FiSettings, FiUsers } from "react-icons/fi"
 import { IoFlameOutline } from "react-icons/io5"
-import { LuSpeech } from "react-icons/lu"
+import { LuBookOpenText, LuScrollText, LuSpeech } from "react-icons/lu"
+
 import type { IconType } from "react-icons/lib"
 
 import type { UserPublic } from "@/client"
@@ -14,6 +16,9 @@ const items = [
   { icon: FiBriefcase, title: "Items", path: "/items" },
   { icon: IoFlameOutline, title: "Middot", path: "/middot" },
   { icon: LuSpeech, title: "Reminder Phrases", path: "/reminder-phrases" },
+  { icon: FaHandHoldingHeart, title: "Kabbalot", path: "/kabbalot" },
+  { icon: LuScrollText, title: "Daily Texts", path: "/daily-texts" },
+  { icon: LuBookOpenText, title: "Weekly Texts", path: "/weekly-texts" },
   { icon: FiSettings, title: "User Settings", path: "/settings" },
 ]
 

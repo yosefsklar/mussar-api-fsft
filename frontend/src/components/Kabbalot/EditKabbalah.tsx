@@ -4,7 +4,6 @@ import {
   DialogActionTrigger,
   Input,
   Text,
-  Textarea,
   VStack,
 } from "@chakra-ui/react"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
@@ -12,7 +11,7 @@ import { useState } from "react"
 import { type SubmitHandler, useForm } from "react-hook-form"
 import { FaExchangeAlt } from "react-icons/fa"
 
-import { type ApiError, type ReminderPhraseRead, ReminderPhrasesService } from "@/client"
+import { type ApiError, type KabbalahRead, KabbalotService } from "@/client"
 import useCustomToast from "@/hooks/useCustomToast"
 import { handleError } from "@/utils"
 import {
@@ -27,16 +26,16 @@ import {
 } from "../ui/dialog"
 import { Field } from "../ui/field"
 
-interface EditReminderPhraseProps {
-  reminderPhrase: ReminderPhraseRead
+interface EditKabbalahProps {
+  kabbalah: KabbalahRead
 }
 
-interface ReminderPhraseUpdateForm {
+interface KabbalahUpdateForm {
   middah: string
-  text: string
+  description: string
 }
 
-const EditReminderPhrase = ({ reminderPhrase }: EditReminderPhraseProps) => {
+const EditKabbalah = ({ kabbalah }: EditKabbalahProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const queryClient = useQueryClient()
   const { showSuccessToast } = useCustomToast()
@@ -45,23 +44,23 @@ const EditReminderPhrase = ({ reminderPhrase }: EditReminderPhraseProps) => {
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<ReminderPhraseUpdateForm>({
+  } = useForm<KabbalahUpdateForm>({
     mode: "onTouched",
     criteriaMode: "all",
     defaultValues: {
-      middah: reminderPhrase.middah,
-      text: reminderPhrase.text,
+      middah: kabbalah.middah,
+      description: kabbalah.description,
     },
   })
 
   const mutation = useMutation({
-    mutationFn: (data: ReminderPhraseUpdateForm) =>
-      ReminderPhrasesService.patchReminderPhrase({ 
-        id: reminderPhrase.id, 
+    mutationFn: (data: KabbalahUpdateForm) =>
+      KabbalotService.patchKabbalah({ 
+        id: kabbalah.id, 
         requestBody: data 
       }),
     onSuccess: () => {
-      showSuccessToast("Reminder phrase updated successfully.")
+      showSuccessToast("Kabbalah updated successfully.")
       reset()
       setIsOpen(false)
     },
@@ -69,11 +68,11 @@ const EditReminderPhrase = ({ reminderPhrase }: EditReminderPhraseProps) => {
       handleError(err)
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["reminderPhrases"] })
+      queryClient.invalidateQueries({ queryKey: ["kabbalot"] })
     },
   })
 
-  const onSubmit: SubmitHandler<ReminderPhraseUpdateForm> = async (data) => {
+  const onSubmit: SubmitHandler<KabbalahUpdateForm> = async (data) => {
     mutation.mutate(data)
   }
 
@@ -87,16 +86,16 @@ const EditReminderPhrase = ({ reminderPhrase }: EditReminderPhraseProps) => {
       <DialogTrigger asChild>
         <Button variant="ghost">
           <FaExchangeAlt fontSize="16px" />
-          Edit Reminder Phrase
+          Edit Kabbalah
         </Button>
       </DialogTrigger>
       <DialogContent>
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogHeader>
-            <DialogTitle>Edit Reminder Phrase</DialogTitle>
+            <DialogTitle>Edit Kabbalah</DialogTitle>
           </DialogHeader>
           <DialogBody>
-            <Text mb={4}>Update the reminder phrase details below.</Text>
+            <Text mb={4}>Update the kabbalah details below.</Text>
             <VStack gap={4}>
               <Field
                 required
@@ -115,15 +114,15 @@ const EditReminderPhrase = ({ reminderPhrase }: EditReminderPhraseProps) => {
 
               <Field
                 required
-                invalid={!!errors.text}
-                errorText={errors.text?.message}
-                label="Text"
+                invalid={!!errors.description}
+                errorText={errors.description?.message}
+                label="Description"
               >
                 <Input
-                  {...register("text", {
-                    required: "Text is required.",
+                  {...register("description", {
+                    required: "Description is required.",
                   })}
-                  placeholder="Enter reminder phrase text"
+                  placeholder="Enter kabbalah description"
                   onKeyDown={(e) => {
                     if (e.key === "Enter" && !e.shiftKey) {
                       e.preventDefault()
@@ -158,4 +157,4 @@ const EditReminderPhrase = ({ reminderPhrase }: EditReminderPhraseProps) => {
   )
 }
 
-export default EditReminderPhrase
+export default EditKabbalah

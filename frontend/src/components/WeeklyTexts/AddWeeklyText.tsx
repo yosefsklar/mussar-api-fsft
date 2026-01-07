@@ -3,6 +3,7 @@ import {
   DialogActionTrigger,
   DialogTitle,
   Input,
+  Textarea,
   Text,
   VStack,
 } from "@chakra-ui/react"
@@ -11,7 +12,7 @@ import { useState } from "react"
 import { type SubmitHandler, useForm } from "react-hook-form"
 import { FaPlus } from "react-icons/fa"
 
-import { type MiddahCreate, MiddotService } from "@/client"
+import { type WeeklyTextCreate, WeeklyTextsService } from "@/client"
 import type { ApiError } from "@/client/core/ApiError"
 import useCustomToast from "@/hooks/useCustomToast"
 import { handleError } from "@/utils"
@@ -26,7 +27,7 @@ import {
 } from "../ui/dialog"
 import { Field } from "../ui/field"
 
-const AddMiddah = () => {
+const AddWeeklyText = () => {
   const [isOpen, setIsOpen] = useState(false)
   const queryClient = useQueryClient()
   const { showSuccessToast } = useCustomToast()
@@ -34,22 +35,22 @@ const AddMiddah = () => {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isValid, isSubmitting },
-  } = useForm<MiddahCreate>({
-    mode: "onTouched",
+    formState: { errors, isSubmitting },
+  } = useForm<WeeklyTextCreate>({
+    mode: "onBlur",
     criteriaMode: "all",
     defaultValues: {
-      name_transliterated: "",
-      name_hebrew: "",
-      name_english: "",
+      sefaria_url: null,
+      title: null,
+      content: null,
     },
   })
 
   const mutation = useMutation({
-    mutationFn: (data: MiddahCreate) =>
-      MiddotService.createMiddah({ requestBody: data }),
+    mutationFn: (data: WeeklyTextCreate) =>
+      WeeklyTextsService.createWeeklyText({ requestBody: data }),
     onSuccess: () => {
-      showSuccessToast("Middah created successfully.")
+      showSuccessToast("Weekly text created successfully.")
       reset()
       setIsOpen(false)
     },
@@ -57,11 +58,11 @@ const AddMiddah = () => {
       handleError(err)
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["middot"] })
+      queryClient.invalidateQueries({ queryKey: ["weeklyTexts"] })
     },
   })
 
-  const onSubmit: SubmitHandler<MiddahCreate> = (data) => {
+  const onSubmit: SubmitHandler<WeeklyTextCreate> = (data) => {
     mutation.mutate(data)
   }
 
@@ -73,61 +74,50 @@ const AddMiddah = () => {
       onOpenChange={({ open }) => setIsOpen(open)}
     >
       <DialogTrigger asChild>
-        <Button value="add-middah" my={4}>
+        <Button value="add-weekly-text" my={4}>
           <FaPlus fontSize="16px" />
-          Add Middah
+          Add Weekly Text
         </Button>
       </DialogTrigger>
       <DialogContent>
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogHeader>
-            <DialogTitle>Add Middah</DialogTitle>
+            <DialogTitle>Add Weekly Text</DialogTitle>
           </DialogHeader>
           <DialogBody>
-            <Text mb={4}>Fill in the details to add a new middah.</Text>
+            <Text mb={4}>Fill in the details to add a new weekly text.</Text>
             <VStack gap={4}>
               <Field
-                required
-                invalid={!!errors.name_transliterated}
-                errorText={errors.name_transliterated?.message}
-                label="Name (Transliterated)"
+                invalid={!!errors.title}
+                errorText={errors.title?.message}
+                label="Title"
               >
                 <Input
-                  {...register("name_transliterated", {
-                    required: "Transliterated name is required.",
-                  })}
-                  placeholder="e.g., Chesed"
-                  type="text"
+                  {...register("title")}
+                  placeholder="Enter title (optional)"
                 />
               </Field>
 
               <Field
-                required
-                invalid={!!errors.name_hebrew}
-                errorText={errors.name_hebrew?.message}
-                label="Name (Hebrew)"
+                invalid={!!errors.sefaria_url}
+                errorText={errors.sefaria_url?.message}
+                label="Sefaria URL"
               >
                 <Input
-                  {...register("name_hebrew", {
-                    required: "Hebrew name is required.",
-                  })}
-                  placeholder="e.g., חסד"
-                  type="text"
+                  {...register("sefaria_url")}
+                  placeholder="Enter Sefaria URL (optional)"
                 />
               </Field>
 
               <Field
-                required
-                invalid={!!errors.name_english}
-                errorText={errors.name_english?.message}
-                label="Name (English)"
+                invalid={!!errors.content}
+                errorText={errors.content?.message}
+                label="Content"
               >
-                <Input
-                  {...register("name_english", {
-                    required: "English name is required.",
-                  })}
-                  placeholder="e.g., Kindness"
-                  type="text"
+                <Textarea
+                  {...register("content")}
+                  placeholder="Enter content (optional)"
+                  rows={4}
                 />
               </Field>
             </VStack>
@@ -146,7 +136,6 @@ const AddMiddah = () => {
             <Button
               variant="solid"
               type="submit"
-              disabled={!isValid}
               loading={isSubmitting}
             >
               Save
@@ -159,4 +148,4 @@ const AddMiddah = () => {
   )
 }
 
-export default AddMiddah
+export default AddWeeklyText

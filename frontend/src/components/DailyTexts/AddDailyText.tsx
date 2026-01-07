@@ -4,6 +4,7 @@ import {
   DialogActionTrigger,
   DialogTitle,
   Input,
+  Textarea,
   Text,
   VStack,
 } from "@chakra-ui/react"
@@ -12,7 +13,7 @@ import { useState } from "react"
 import { type SubmitHandler, useForm } from "react-hook-form"
 import { FaPlus } from "react-icons/fa"
 
-import { type ReminderPhraseCreate, MiddotService, ReminderPhrasesService } from "@/client"
+import { type DailyTextCreate, DailyTextsService, MiddotService } from "@/client"
 import type { ApiError } from "@/client/core/ApiError"
 import useCustomToast from "@/hooks/useCustomToast"
 import { handleError } from "@/utils"
@@ -34,7 +35,7 @@ import {
 } from "../ui/dialog"
 import { Field } from "../ui/field"
 
-const AddReminderPhrase = () => {
+const AddDailyText = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [selectedMiddah, setSelectedMiddah] = useState<string[]>([])
   const queryClient = useQueryClient()
@@ -45,12 +46,14 @@ const AddReminderPhrase = () => {
     reset,
     setValue,
     formState: { errors, isValid, isSubmitting },
-  } = useForm<ReminderPhraseCreate>({
+  } = useForm<DailyTextCreate>({
     mode: "onTouched",
     criteriaMode: "all",
     defaultValues: {
       middah: "",
-      text: "",
+      sefaria_url: null,
+      title: null,
+      content: null,
     },
   })
 
@@ -60,10 +63,10 @@ const AddReminderPhrase = () => {
   })
 
   const mutation = useMutation({
-    mutationFn: (data: ReminderPhraseCreate) =>
-      ReminderPhrasesService.createReminderPhrase({ requestBody: data }),
+    mutationFn: (data: DailyTextCreate) =>
+      DailyTextsService.createDailyText({ requestBody: data }),
     onSuccess: () => {
-      showSuccessToast("Reminder phrase created successfully.")
+      showSuccessToast("Daily text created successfully.")
       reset()
       setSelectedMiddah([])
       setIsOpen(false)
@@ -72,11 +75,11 @@ const AddReminderPhrase = () => {
       handleError(err)
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["reminderPhrases"] })
+      queryClient.invalidateQueries({ queryKey: ["dailyTexts"] })
     },
   })
 
-  const onSubmit: SubmitHandler<ReminderPhraseCreate> = (data) => {
+  const onSubmit: SubmitHandler<DailyTextCreate> = (data) => {
     mutation.mutate(data)
   }
 
@@ -88,18 +91,18 @@ const AddReminderPhrase = () => {
       onOpenChange={({ open }) => setIsOpen(open)}
     >
       <DialogTrigger asChild>
-        <Button value="add-reminder-phrase" my={4}>
+        <Button value="add-daily-text" my={4}>
           <FaPlus fontSize="16px" />
-          Add Reminder Phrase
+          Add Daily Text
         </Button>
       </DialogTrigger>
       <DialogContent>
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogHeader>
-            <DialogTitle>Add Reminder Phrase</DialogTitle>
+            <DialogTitle>Add Daily Text</DialogTitle>
           </DialogHeader>
           <DialogBody>
-            <Text mb={4}>Fill in the details to add a new reminder phrase.</Text>
+            <Text mb={4}>Fill in the details to add a new daily text.</Text>
             <VStack gap={4}>
               <Field
                 required
@@ -135,22 +138,36 @@ const AddReminderPhrase = () => {
               </Field>
 
               <Field
-                required
-                invalid={!!errors.text}
-                errorText={errors.text?.message}
-                label="Text"
+                invalid={!!errors.title}
+                errorText={errors.title?.message}
+                label="Title"
               >
                 <Input
-                  {...register("text", {
-                    required: "Text is required.",
-                  })}
-                  placeholder="Enter reminder phrase text"
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" && !e.shiftKey) {
-                      e.preventDefault()
-                      handleSubmit(onSubmit)()
-                    }
-                  }}
+                  {...register("title")}
+                  placeholder="Enter title (optional)"
+                />
+              </Field>
+
+              <Field
+                invalid={!!errors.sefaria_url}
+                errorText={errors.sefaria_url?.message}
+                label="Sefaria URL"
+              >
+                <Input
+                  {...register("sefaria_url")}
+                  placeholder="Enter Sefaria URL (optional)"
+                />
+              </Field>
+
+              <Field
+                invalid={!!errors.content}
+                errorText={errors.content?.message}
+                label="Content"
+              >
+                <Textarea
+                  {...register("content")}
+                  placeholder="Enter content (optional)"
+                  rows={4}
                 />
               </Field>
             </VStack>
@@ -182,4 +199,4 @@ const AddReminderPhrase = () => {
   )
 }
 
-export default AddReminderPhrase
+export default AddDailyText
