@@ -47,7 +47,7 @@ const AddDailyText = () => {
     setValue,
     formState: { errors, isValid, isSubmitting },
   } = useForm<DailyTextCreate>({
-    mode: "onBlur",
+    mode: "onTouched",
     criteriaMode: "all",
     defaultValues: {
       middah: "",
