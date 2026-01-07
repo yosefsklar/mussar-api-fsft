@@ -45,7 +45,7 @@ const EditKabbalah = ({ kabbalah }: EditKabbalahProps) => {
     reset,
     formState: { errors, isSubmitting },
   } = useForm<KabbalahUpdateForm>({
-    mode: "on",
+    mode: "onTouched",
     criteriaMode: "all",
     defaultValues: {
       middah: kabbalah.middah,
