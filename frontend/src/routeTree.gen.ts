@@ -15,11 +15,13 @@ import { Route as RecoverPasswordRouteImport } from './routes/recover-password'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as LayoutRouteImport } from './routes/_layout'
 import { Route as LayoutIndexRouteImport } from './routes/_layout/index'
+import { Route as LayoutWeeklyTextsRouteImport } from './routes/_layout/weekly-texts'
 import { Route as LayoutSettingsRouteImport } from './routes/_layout/settings'
 import { Route as LayoutReminderPhrasesRouteImport } from './routes/_layout/reminder-phrases'
 import { Route as LayoutMiddotRouteImport } from './routes/_layout/middot'
 import { Route as LayoutKabbalotRouteImport } from './routes/_layout/kabbalot'
 import { Route as LayoutItemsRouteImport } from './routes/_layout/items'
+import { Route as LayoutDailyTextsRouteImport } from './routes/_layout/daily-texts'
 import { Route as LayoutAdminRouteImport } from './routes/_layout/admin'
 
 const SignupRoute = SignupRouteImport.update({
@@ -51,6 +53,11 @@ const LayoutIndexRoute = LayoutIndexRouteImport.update({
   path: '/',
   getParentRoute: () => LayoutRoute,
 } as any)
+const LayoutWeeklyTextsRoute = LayoutWeeklyTextsRouteImport.update({
+  id: '/weekly-texts',
+  path: '/weekly-texts',
+  getParentRoute: () => LayoutRoute,
+} as any)
 const LayoutSettingsRoute = LayoutSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
@@ -76,6 +83,11 @@ const LayoutItemsRoute = LayoutItemsRouteImport.update({
   path: '/items',
   getParentRoute: () => LayoutRoute,
 } as any)
+const LayoutDailyTextsRoute = LayoutDailyTextsRouteImport.update({
+  id: '/daily-texts',
+  path: '/daily-texts',
+  getParentRoute: () => LayoutRoute,
+} as any)
 const LayoutAdminRoute = LayoutAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
@@ -88,11 +100,13 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/admin': typeof LayoutAdminRoute
+  '/daily-texts': typeof LayoutDailyTextsRoute
   '/items': typeof LayoutItemsRoute
   '/kabbalot': typeof LayoutKabbalotRoute
   '/middot': typeof LayoutMiddotRoute
   '/reminder-phrases': typeof LayoutReminderPhrasesRoute
   '/settings': typeof LayoutSettingsRoute
+  '/weekly-texts': typeof LayoutWeeklyTextsRoute
   '/': typeof LayoutIndexRoute
 }
 export interface FileRoutesByTo {
@@ -101,11 +115,13 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/admin': typeof LayoutAdminRoute
+  '/daily-texts': typeof LayoutDailyTextsRoute
   '/items': typeof LayoutItemsRoute
   '/kabbalot': typeof LayoutKabbalotRoute
   '/middot': typeof LayoutMiddotRoute
   '/reminder-phrases': typeof LayoutReminderPhrasesRoute
   '/settings': typeof LayoutSettingsRoute
+  '/weekly-texts': typeof LayoutWeeklyTextsRoute
   '/': typeof LayoutIndexRoute
 }
 export interface FileRoutesById {
@@ -116,11 +132,13 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/_layout/admin': typeof LayoutAdminRoute
+  '/_layout/daily-texts': typeof LayoutDailyTextsRoute
   '/_layout/items': typeof LayoutItemsRoute
   '/_layout/kabbalot': typeof LayoutKabbalotRoute
   '/_layout/middot': typeof LayoutMiddotRoute
   '/_layout/reminder-phrases': typeof LayoutReminderPhrasesRoute
   '/_layout/settings': typeof LayoutSettingsRoute
+  '/_layout/weekly-texts': typeof LayoutWeeklyTextsRoute
   '/_layout/': typeof LayoutIndexRoute
 }
 export interface FileRouteTypes {
@@ -131,11 +149,13 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/signup'
     | '/admin'
+    | '/daily-texts'
     | '/items'
     | '/kabbalot'
     | '/middot'
     | '/reminder-phrases'
     | '/settings'
+    | '/weekly-texts'
     | '/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -144,11 +164,13 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/signup'
     | '/admin'
+    | '/daily-texts'
     | '/items'
     | '/kabbalot'
     | '/middot'
     | '/reminder-phrases'
     | '/settings'
+    | '/weekly-texts'
     | '/'
   id:
     | '__root__'
@@ -158,11 +180,13 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/signup'
     | '/_layout/admin'
+    | '/_layout/daily-texts'
     | '/_layout/items'
     | '/_layout/kabbalot'
     | '/_layout/middot'
     | '/_layout/reminder-phrases'
     | '/_layout/settings'
+    | '/_layout/weekly-texts'
     | '/_layout/'
   fileRoutesById: FileRoutesById
 }
@@ -218,6 +242,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutIndexRouteImport
       parentRoute: typeof LayoutRoute
     }
+    '/_layout/weekly-texts': {
+      id: '/_layout/weekly-texts'
+      path: '/weekly-texts'
+      fullPath: '/weekly-texts'
+      preLoaderRoute: typeof LayoutWeeklyTextsRouteImport
+      parentRoute: typeof LayoutRoute
+    }
     '/_layout/settings': {
       id: '/_layout/settings'
       path: '/settings'
@@ -253,6 +284,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutItemsRouteImport
       parentRoute: typeof LayoutRoute
     }
+    '/_layout/daily-texts': {
+      id: '/_layout/daily-texts'
+      path: '/daily-texts'
+      fullPath: '/daily-texts'
+      preLoaderRoute: typeof LayoutDailyTextsRouteImport
+      parentRoute: typeof LayoutRoute
+    }
     '/_layout/admin': {
       id: '/_layout/admin'
       path: '/admin'
@@ -265,21 +303,25 @@ declare module '@tanstack/react-router' {
 
 interface LayoutRouteChildren {
   LayoutAdminRoute: typeof LayoutAdminRoute
+  LayoutDailyTextsRoute: typeof LayoutDailyTextsRoute
   LayoutItemsRoute: typeof LayoutItemsRoute
   LayoutKabbalotRoute: typeof LayoutKabbalotRoute
   LayoutMiddotRoute: typeof LayoutMiddotRoute
   LayoutReminderPhrasesRoute: typeof LayoutReminderPhrasesRoute
   LayoutSettingsRoute: typeof LayoutSettingsRoute
+  LayoutWeeklyTextsRoute: typeof LayoutWeeklyTextsRoute
   LayoutIndexRoute: typeof LayoutIndexRoute
 }
 
 const LayoutRouteChildren: LayoutRouteChildren = {
   LayoutAdminRoute: LayoutAdminRoute,
+  LayoutDailyTextsRoute: LayoutDailyTextsRoute,
   LayoutItemsRoute: LayoutItemsRoute,
   LayoutKabbalotRoute: LayoutKabbalotRoute,
   LayoutMiddotRoute: LayoutMiddotRoute,
   LayoutReminderPhrasesRoute: LayoutReminderPhrasesRoute,
   LayoutSettingsRoute: LayoutSettingsRoute,
+  LayoutWeeklyTextsRoute: LayoutWeeklyTextsRoute,
   LayoutIndexRoute: LayoutIndexRoute,
 }
 
