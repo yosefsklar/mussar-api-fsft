@@ -46,7 +46,7 @@ const EditReminderPhrase = ({ reminderPhrase }: EditReminderPhraseProps) => {
     reset,
     formState: { errors, isSubmitting },
   } = useForm<ReminderPhraseUpdateForm>({
-    mode: "on",
+    mode: "onTouched",
     criteriaMode: "all",
     defaultValues: {
       middah: reminderPhrase.middah,
