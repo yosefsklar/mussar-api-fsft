@@ -5,7 +5,7 @@ import { Link as RouterLink } from "@tanstack/react-router"
 import { FaHandHoldingHeart } from "react-icons/fa";
 import { FiBriefcase, FiHome, FiSettings, FiUsers } from "react-icons/fi"
 import { IoFlameOutline } from "react-icons/io5"
-import { LuBookOpenText, LuScrollText, LuSpeech} from "react-icons/lu"
+import { LuBookOpenText, LuScrollText, LuSpeech } from "react-icons/lu"
 
 import type { IconType } from "react-icons/lib"
 
