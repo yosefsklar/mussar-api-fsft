@@ -36,7 +36,7 @@ const AddMiddah = () => {
     reset,
     formState: { errors, isValid, isSubmitting },
   } = useForm<MiddahCreate>({
-    mode: "o",
+    mode: "onTouched",
     criteriaMode: "all",
     defaultValues: {
       name_transliterated: "",
