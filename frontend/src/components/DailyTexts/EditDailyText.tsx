@@ -48,7 +48,7 @@ const EditDailyText = ({ dailyText }: EditDailyTextProps) => {
     reset,
     formState: { errors, isSubmitting },
   } = useForm<DailyTextUpdateForm>({
-    mode: "onBlur",
+    mode: "onTouched",
     criteriaMode: "all",
     defaultValues: {
       middah: dailyText.middah,
