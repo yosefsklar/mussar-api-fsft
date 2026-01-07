@@ -2,7 +2,7 @@ import { Box, Flex, Icon, Text } from "@chakra-ui/react"
 import { useQueryClient } from "@tanstack/react-query"
 import { Link as RouterLink } from "@tanstack/react-router"
 
-import { FaHandHoldingHeart } from "react-icons/fa";
+import { FaHandHoldingHeart } from "react-icons/fa"
 import { FiBriefcase, FiHome, FiSettings, FiUsers } from "react-icons/fi"
 import { IoFlameOutline } from "react-icons/io5"
 import { LuBookOpenText, LuScrollText, LuSpeech } from "react-icons/lu"
