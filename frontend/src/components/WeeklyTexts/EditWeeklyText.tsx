@@ -47,7 +47,7 @@ const EditWeeklyText = ({ weeklyText }: EditWeeklyTextProps) => {
     reset,
     formState: { errors, isSubmitting },
   } = useForm<WeeklyTextUpdateForm>({
-    mode: "onBlur",
+    mode: "onTouched",
     criteriaMode: "all",
     defaultValues: {
       title: weeklyText.title,
